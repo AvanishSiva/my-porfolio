@@ -9,12 +9,9 @@ export default function Hero() {
   const name = "Sivaavanish";
 
   return (
-    // Remove the section wrapper - it's now handled by App.jsx
     <div className="hero">
-      {/* Giant Name */}
       <NameRow name={name} />
 
-      {/* Info + Role */}
       <div className="hero-info">
         <InfoBlock
           text="I write code, break it, fix it, and repeat — been doing it for 3 years, and wouldn't have it any other way."

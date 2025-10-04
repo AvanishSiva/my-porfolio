@@ -10,7 +10,7 @@ const dockItems = [
   { id: 6, name: 'Contact Me', icon: <FaEnvelope /> },
 ]
 
-function DockItem({ item, mouseX, mouseY, dockBounds }) {
+function DockItem({ item, mouseX, mouseY, dockBounds, onClick }) {
   const [scale, setScale] = useState(1)
   const [showTooltip, setShowTooltip] = useState(false)
   const ref = useRef()
@@ -115,6 +115,7 @@ function DockItem({ item, mouseX, mouseY, dockBounds }) {
     <div
       ref={ref}
       style={itemStyle}
+      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -130,7 +131,7 @@ function DockItem({ item, mouseX, mouseY, dockBounds }) {
   )
 }
 
-export default function Dock() {
+export default function Dock({onNavigate, currentSection}) {
   const [mousePosition, setMousePosition] = useState({ x: null, y: null })
   const [dockBounds, setDockBounds] = useState(null)
   const [isHovered, setIsHovered] = useState(false)
@@ -183,7 +184,7 @@ export default function Dock() {
       : '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1)',
     transform: isHovered ? 'scale(1.05)' : 'scale(1)',
     transition: 'all 0.3s ease-out',
-    pointerEvents: 'auto', // Re-enable pointer events for the dock itself
+    pointerEvents: 'auto',
   }
 
   const itemsContainerStyle = {
@@ -209,6 +210,7 @@ export default function Dock() {
               mouseX={mousePosition.x}
               mouseY={mousePosition.y}
               dockBounds={dockBounds}
+              onClick={() => onNavigate(item.id)}
             />
           ))}
         </div>
