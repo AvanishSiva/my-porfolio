@@ -14,7 +14,7 @@ const educationData = [
     ]
   },
   {
-    degree: "BSc Computer Science",
+    degree: "BSc in Computer Science",
     school: "Sri Krishna College of Engineering and Technology",
     date: "2019 - 2023",
     location: "Tamilnadu, India",

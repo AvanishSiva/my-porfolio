@@ -84,7 +84,6 @@
   font-size: 8rem;
   font-weight: 900;
   color: #6B645C;
-  /* font-family: 'Courier New', monospace; */
   line-height: 1;
   display: flex;
   align-items: baseline;
@@ -111,33 +110,134 @@
   opacity: 0.3;
 }
 
-/* Map Container */
-
-.card-map {
+/* Tech Stack Container */
+.tech-stack-container {
   width: 100%;
-  height: 200px;
-  border-radius: 12px;
-  overflow: hidden;
   margin-bottom: 1.5rem;
-  border: 2px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.5s ease-out;
+  transform: translateY(30px) rotateX(10deg);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  perspective: 1000px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.card-map.active {
+.tech-stack-container.active {
   opacity: 1;
-  transform: translateY(0);
-  animation: fadeInUp 0.6s ease-out 0.25s backwards;
+  transform: translateY(0) rotateX(0deg);
 }
 
-.card-map iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
+.tech-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.875rem;
+  box-sizing: border-box;
 }
 
+.tech-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.5) rotateY(90deg);
+  box-sizing: border-box;
+}
+
+.tech-stack-container.active .tech-badge {
+  animation: techBadgeFlip 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.tech-badge:hover {
+  transform: translateY(-8px) scale(1.08) rotateZ(-2deg);
+  border-color: var(--tech-color);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.18),
+    0 0 0 3px var(--tech-color),
+    0 0 20px var(--tech-color);
+}
+
+.tech-badge:hover .tech-glow {
+  opacity: 0.25;
+  transform: translate(-50%, -50%) scale(2);
+}
+
+.tech-badge:hover .tech-icon {
+  transform: scale(1.15) rotateZ(5deg);
+}
+
+.tech-icon {
+  font-size: 2.25rem;
+  margin-bottom: 0.6rem;
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: techIconFloat 3s ease-in-out infinite;
+}
+
+.tech-badge:nth-child(1) .tech-icon {
+  animation-delay: 0s;
+}
+
+.tech-badge:nth-child(2) .tech-icon {
+  animation-delay: 0.3s;
+}
+
+.tech-badge:nth-child(3) .tech-icon {
+  animation-delay: 0.6s;
+}
+
+.tech-badge:nth-child(4) .tech-icon {
+  animation-delay: 0.9s;
+}
+
+.tech-badge:nth-child(5) .tech-icon {
+  animation-delay: 1.2s;
+}
+
+.tech-badge:nth-child(6) .tech-icon {
+  animation-delay: 1.5s;
+}
+
+.tech-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #333;
+  z-index: 2;
+  text-align: center;
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+
+.tech-badge:hover .tech-name {
+  color: var(--tech-color);
+  transform: scale(1.05);
+}
+
+.tech-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: blur(25px);
+  z-index: 1;
+}
 
 .map-container {
   position: fixed;
@@ -433,6 +533,33 @@
   }
 }
 
+@keyframes techBadgeFlip {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotateY(90deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1) rotateY(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes techIconFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-6px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(6px) rotate(-2deg);
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sticky-number {
@@ -458,9 +585,26 @@
 
 @media (max-width: 768px) {
 
-  .card-map {
-    height: 160px;
-    margin-bottom: 1rem;
+  .tech-stack-container {
+    padding: 1rem;
+  }
+
+  .tech-stack-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+
+  .tech-badge {
+    padding: 0.75rem 0.4rem;
+  }
+
+  .tech-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .tech-name {
+    font-size: 0.7rem;
   }
 
   .education-static-title {
