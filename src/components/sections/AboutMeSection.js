@@ -238,15 +238,15 @@ export default function AboutSection() {
           <ul style={highlightListStyle}>
             <li style={highlightItemStyle} className="highlight-item">
               <span style={bulletStyle}></span>
+              Currently pursuing MSc in Artificial Intelligence
+            </li>
+            <li style={highlightItemStyle} className="highlight-item">
+              <span style={bulletStyle}></span>
               3+ years of professional development experience
             </li>
             <li style={highlightItemStyle} className="highlight-item">
               <span style={bulletStyle}></span>
               Full-stack developer with a focus on modern web technologies
-            </li>
-            <li style={highlightItemStyle} className="highlight-item">
-              <span style={bulletStyle}></span>
-              Currently pursuing MSc in Artificial Intelligence
             </li>
             <li style={highlightItemStyle} className="highlight-item">
               <span style={bulletStyle}></span>

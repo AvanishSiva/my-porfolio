@@ -10,7 +10,7 @@ const projectsData = [
       { name: "Rasa", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", color: "#5a17ee" },
       { name: "NLP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg", color: "#ff6f00" }
     ],
-    githubLink: "https://github.com/yourusername/ai-chatbot",
+    githubLink: "https://github.com/AvanishSiva/DeepVisionTech-Octave",
     featured: true
   },
   {
@@ -22,7 +22,7 @@ const projectsData = [
       { name: "Google Maps", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg", color: "#4285F4" },
       { name: "Dart", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg", color: "#0175C2" }
     ],
-    githubLink: null,
+    githubLink: "https://github.com/AvanishSiva/Go-Safe",
     featured: true
   },
   {
