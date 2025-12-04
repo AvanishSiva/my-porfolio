@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './ProjectSection.css';
 
 const projectsData = [
   {
@@ -80,332 +81,71 @@ export default function ProjectsSection() {
 
   const handleProjectSelect = (index) => {
     if (index === selectedProject || isAnimating) return;
-    
+
     setIsAnimating(true);
     setSelectedProject(index);
     setTimeout(() => setIsAnimating(false), 600);
   };
 
-  const containerStyle = {
-    width: '100vw',
-    minHeight: '100vh',
-    backgroundColor: '#E8E8E3',
-    padding: '4rem 2rem',
-    position: 'relative',
-    overflow: 'hidden',
-  };
-
-  const headerStyle = {
-    textAlign: 'center',
-    marginBottom: '4rem',
-    animation: 'fadeInDown 0.8s ease-out',
-  };
-
-  const titleStyle = {
-    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-    fontWeight: '900',
-    color: '#181818',
-    textTransform: 'uppercase',
-    letterSpacing: '-1px',
-    marginBottom: '1rem',
-  };
-
-  const subtitleStyle = {
-    fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-    color: '#6B645C',
-    maxWidth: '600px',
-    margin: '0 auto',
-  };
-
-  const contentWrapperStyle = {
-    maxWidth: '1400px',
-    margin: '0 auto',
-    display: 'flex',
-    gap: '3rem',
-    alignItems: 'flex-start',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  };
-
-  const projectListStyle = {
-    flex: '0 0 300px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-  };
-
-  const projectItemStyle = (index) => ({
-    padding: '1.5rem',
-    background: selectedProject === index ? 'white' : '#F9F9F4',
-    borderRadius: '12px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    border: selectedProject === index ? '2px solid #667eea' : '2px solid transparent',
-    boxShadow: selectedProject === index 
-      ? '0 8px 24px rgba(102, 126, 234, 0.2)' 
-      : '0 2px 8px rgba(0, 0, 0, 0.05)',
-    transform: selectedProject === index ? 'translateX(8px)' : 'translateX(0)',
-  });
-
-  const projectNameStyle = (index) => ({
-    fontSize: '1.1rem',
-    fontWeight: '700',
-    color: selectedProject === index ? '#667eea' : '#181818',
-    marginBottom: '0.5rem',
-    transition: 'color 0.3s ease',
-  });
-
-  const projectNumberStyle = {
-    fontSize: '0.85rem',
-    color: '#6B645C',
-    fontWeight: '600',
-  };
-
-  const detailPanelStyle = {
-    flex: '1 1 600px',
-    minWidth: '300px',
-    background: 'white',
-    borderRadius: '16px',
-    padding: '2.5rem',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-    opacity: isAnimating ? 0 : 1,
-    transform: isAnimating ? 'translateY(20px) scale(0.98)' : 'translateY(0) scale(1)',
-    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-  };
-
-  const detailHeaderStyle = {
-    marginBottom: '2rem',
-  };
-
-  const detailTitleStyle = {
-    fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-    fontWeight: '800',
-    color: '#181818',
-    marginBottom: '1rem',
-    background: '#555',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-  };
-
-  const featuredBadgeStyle = {
-    display: 'inline-block',
-    padding: '0.4rem 0.8rem',
-    background: '#898986',
-    color: 'white',
-    borderRadius: '6px',
-    fontSize: '0.75rem',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    marginBottom: '1rem',
-  };
-
-  const descriptionStyle = {
-    fontSize: '1.1rem',
-    lineHeight: '1.8',
-    color: '#555',
-    marginBottom: '2rem',
-  };
-
-  const techStackSectionStyle = {
-    marginBottom: '2rem',
-    width: '100%',
-  };
-
-  const sectionTitleStyle = {
-    fontSize: '1rem',
-    fontWeight: '700',
-    color: '#181818',
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    marginBottom: '1.5rem',
-  };
-
-  const techGridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
-    gap: '1rem',
-    width: '100%',
-  };
-
-  const techBadgeStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1.25rem 1rem',
-    background: '#F9F9F4',
-    borderRadius: '10px',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    cursor: 'pointer',
-    border: '2px solid transparent',
-    minHeight: '120px',
-  };
-
-  const techIconStyle = {
-    width: '48px',
-    height: '48px',
-    marginBottom: '0.75rem',
-    transition: 'transform 0.3s ease',
-    objectFit: 'contain',
-  };
-
-  const techNameStyle = {
-    fontSize: '0.9rem',
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-  };
-
-  const buttonContainerStyle = {
-    display: 'flex',
-    gap: '1rem',
-    marginTop: '2rem',
-  };
-
-  const buttonStyle = (hasLink) => ({
-    flex: 1,
-    padding: '1rem 2rem',
-    background: hasLink 
-      ? '#555' 
-      : '#E8E8E3',
-    color: hasLink ? 'white' : '#999',
-    border: 'none',
-    borderRadius: '10px',
-    fontSize: '1rem',
-    fontWeight: '700',
-    cursor: hasLink ? 'pointer' : 'not-allowed',
-    transition: 'all 0.3s ease',
-    textDecoration: 'none',
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    opacity: hasLink ? 1 : 0.5,
-  });
-
-  const hoverStyles = `
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .project-item:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .tech-badge-item:hover {
-      transform: translateY(-4px);
-      border-color: var(--tech-color);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-      background: white;
-    }
-
-    .tech-badge-item:hover img {
-      transform: scale(1.15) rotate(5deg);
-    }
-
-    .github-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-    }
-
-    .github-button:disabled:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    @media (max-width: 768px) {
-      .content-wrapper {
-        flex-direction: column;
-      }
-      
-      .project-list {
-        flex: 1 1 100%;
-        order: 2;
-      }
-      
-      .detail-panel {
-        order: 1;
-      }
-    }
-  `;
-
   const currentProject = projectsData[selectedProject];
 
   return (
-    <div style={containerStyle} ref={sectionRef}>
-      <style>{hoverStyles}</style>
-      
-      <div style={headerStyle}>
-        <h1 style={titleStyle}>Featured Projects</h1>
-        <p style={subtitleStyle}>
+    <div className="project-container" ref={sectionRef}>
+      <div className="project-header">
+        <h1 className="project-title">Featured Projects</h1>
+        <p className="project-subtitle">
           Explore my recent work and side projects that showcase my skills and passion for development
         </p>
       </div>
 
-      <div style={contentWrapperStyle} className="content-wrapper">
-        <div style={projectListStyle} className="project-list">
+      <div className="project-content-wrapper">
+        <div className="project-list">
           {projectsData.map((project, index) => (
             <div
               key={index}
-              className="project-item project-card"
-              style={{
-                ...projectItemStyle(index),
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
+              className={`project-item project-card ${selectedProject === index ? 'selected' : ''}`}
               onClick={() => handleProjectSelect(index)}
             >
-              <div style={projectNumberStyle}>PROJECT {String(index + 1).padStart(2, '0')}</div>
-              <div style={projectNameStyle(index)}>{project.name}</div>
+              <div className="project-number">PROJECT {String(index + 1).padStart(2, '0')}</div>
+              <div className="project-name">{project.name}</div>
             </div>
           ))}
         </div>
 
-        <div style={detailPanelStyle} className="detail-panel">
-          <div style={detailHeaderStyle}>
+        <div className={`detail-panel ${isAnimating ? 'animating' : ''}`}>
+          <div className="detail-header">
             {currentProject.featured && (
-              <div style={featuredBadgeStyle}>⭐ Featured Project</div>
+              <div className="featured-badge">⭐ Featured Project</div>
             )}
-            <h2 style={detailTitleStyle}>{currentProject.name}</h2>
+            <h2 className="detail-title">{currentProject.name}</h2>
           </div>
 
-          <p style={descriptionStyle}>{currentProject.description}</p>
+          <p className="project-description">{currentProject.description}</p>
 
-          <div style={techStackSectionStyle}>
-            <h3 style={sectionTitleStyle}>Tech Stack</h3>
-            <div style={techGridStyle}>
+          <div className="tech-stack-section">
+            <h3 className="section-title">Tech Stack</h3>
+            <div className="tech-grid">
               {currentProject.techStack.map((tech, index) => (
                 <div
                   key={index}
                   className="tech-badge-item"
                   style={{
-                    ...techBadgeStyle,
                     '--tech-color': tech.color,
                   }}
                 >
-                  <img src={tech.icon} alt={tech.name} style={techIconStyle} />
-                  <span style={techNameStyle}>{tech.name}</span>
+                  <img src={tech.icon} alt={tech.name} className="tech-icon" />
+                  <span className="tech-name">{tech.name}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div style={buttonContainerStyle}>
+          <div className="button-container">
             <a
               href={currentProject.githubLink || '#'}
               target={currentProject.githubLink ? "_blank" : "_self"}
               rel="noopener noreferrer"
-              className="github-button"
-              style={buttonStyle(currentProject.githubLink)}
+              className={`github-button ${currentProject.githubLink ? 'enabled' : 'disabled'}`}
               onClick={(e) => !currentProject.githubLink && e.preventDefault()}
             >
               <span style={{ fontSize: '1.2rem' }}>→</span>

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { FaHome, FaUser, FaUserGraduate, FaBriefcase, FaFolderOpen, FaEnvelope } from 'react-icons/fa';
+import './Dock.css';
 
 const dockItems = [
   { id: 1, name: 'Home', icon: <FaHome /> },
@@ -24,14 +25,14 @@ function DockItem({ item, mouseX, mouseY, dockBounds, onClick }) {
     const itemBounds = ref.current.getBoundingClientRect()
     const itemCenterX = itemBounds.left + itemBounds.width / 2
     const itemCenterY = itemBounds.top + itemBounds.height / 2
-    
+
     const distanceX = Math.abs(mouseX - itemCenterX)
     const distanceY = Math.abs(mouseY - itemCenterY)
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
-    
+
     const maxDistance = 100
     const maxScale = 1.6
-    
+
     if (distance < maxDistance) {
       const proximity = 1 - (distance / maxDistance)
       const newScale = 1 + (proximity * (maxScale - 1))
@@ -49,89 +50,32 @@ function DockItem({ item, mouseX, mouseY, dockBounds, onClick }) {
     setShowTooltip(false)
   }
 
-  const itemStyle = {
+  const dynamicStyle = {
     transform: `scale(${scale})`,
-    transformOrigin: 'bottom center',
-    width: '60px',
-    height: '60px',
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-out',
-  }
-
-  const iconStyle = {
-    width: '100%',
-    height: '100%',
-    background: 'rgba(255, 255, 255, 0.9)',
-    backdropFilter: 'blur(8px)',
-    borderRadius: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '24px',
-    boxShadow: '0 4px 12px #6B645C',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    transition: 'box-shadow 0.2s ease',
-  }
-
-  const tooltipStyle = {
-    position: 'absolute',
-    top: '-48px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    background: '#6B645C',
-    color: 'white',
-    fontSize: '12px',
-    padding: '6px 12px',
-    borderRadius: '6px',
-    pointerEvents: 'none',
-    whiteSpace: 'nowrap',
-    transition: 'all 0.2s ease',
-    opacity: showTooltip ? 1 : 0,
-    transform: showTooltip 
-      ? 'translateX(-50%) translateY(0)' 
-      : 'translateX(-50%) translateY(8px)',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-    zIndex: 1000,
-  }
-
-  const arrowStyle = {
-    position: 'absolute',
-    top: '100%',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: 0,
-    height: 0,
-    borderLeft: '4px solid transparent',
-    borderRight: '4px solid transparent',
-    borderTop: '4px solid #6B645C',
   }
 
   return (
     <div
       ref={ref}
-      style={itemStyle}
+      className="dock-item"
+      style={dynamicStyle}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div style={iconStyle}>
+      <div className="dock-icon">
         {item.icon}
       </div>
-      
-      <div style={tooltipStyle}>
+
+      <div className={`dock-tooltip ${showTooltip ? 'visible' : 'hidden'}`}>
         {item.name}
-        <div style={arrowStyle}></div>
+        <div className="tooltip-arrow"></div>
       </div>
     </div>
   )
 }
 
-export default function Dock({onNavigate, currentSection}) {
+export default function Dock({ onNavigate, currentSection }) {
   const [mousePosition, setMousePosition] = useState({ x: null, y: null })
   const [dockBounds, setDockBounds] = useState(null)
   const [isHovered, setIsHovered] = useState(false)
@@ -146,7 +90,7 @@ export default function Dock({onNavigate, currentSection}) {
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY })
-    
+
     if (dockRef.current) {
       const bounds = dockRef.current.getBoundingClientRect()
       setDockBounds(bounds)
@@ -162,47 +106,16 @@ export default function Dock({onNavigate, currentSection}) {
     setMousePosition({ x: null, y: null })
   }
 
-  const dockContainerStyle = {
-    position: 'fixed',
-    bottom: '20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 9999,
-    pointerEvents: 'none', // Allow clicks to pass through the container
-  }
-
-  const dockStyle = {
-    background: isHovered 
-      ? 'rgba(255, 255, 255, 0.15)' 
-      : 'rgba(255, 255, 255, 0.1)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    borderRadius: '16px',
-    padding: '16px',
-    boxShadow: isHovered 
-      ? '0 25px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)' 
-      : '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-    transition: 'all 0.3s ease-out',
-    pointerEvents: 'auto',
-  }
-
-  const itemsContainerStyle = {
-    display: 'flex',
-    alignItems: 'flex-end',
-    gap: '1.5em',
-  }
-
   return (
-    <div style={dockContainerStyle}>
+    <div className="dock-container">
       <div
         ref={dockRef}
-        style={dockStyle}
+        className={`dock ${isHovered ? 'hovered' : ''}`}
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div style={itemsContainerStyle}>
+        <div className="dock-items">
           {dockItems.map((item) => (
             <DockItem
               key={item.id}

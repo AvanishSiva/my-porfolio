@@ -32,7 +32,7 @@ export default function AboutSection() {
     if (!grid) return;
 
     const cards = grid.querySelectorAll('.skill-card');
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -55,147 +55,143 @@ export default function AboutSection() {
     return () => observer.disconnect();
   }, []);
 
-  const containerStyle = {
-    width: '100vw',
-    minHeight: '100vh',
-    backgroundColor: '#E8E8E3',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '4rem 2rem',
-    position: 'relative',
-    overflow: 'hidden',
-  };
+  const styles = `
+    .about-container {
+      width: 100vw;
+      min-height: 100vh;
+      background-color: #E8E8E3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow-y: auto; /* Allow scrolling */
+      box-sizing: border-box;
+    }
 
-  const contentWrapperStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '4rem',
-    alignItems: 'flex-start',
-    maxWidth: '1400px',
-    width: '100%',
-    padding: '0 2rem',
-    flexWrap: 'wrap',
-  };
+    .about-content-wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 4rem;
+      align-items: flex-start;
+      max-width: 1400px;
+      width: 100%;
+      padding: 0 2rem;
+      flex-wrap: wrap;
+    }
 
-  const textSectionStyle = {
-    flex: '1 1 400px',
-    maxWidth: '550px',
-    zIndex: 10,
-  };
+    .about-text-section {
+      flex: 1 1 400px;
+      max-width: 550px;
+      z-index: 10;
+    }
 
-  const titleStyle = {
-    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-    fontWeight: '900',
-    color: '#181818',
-    marginBottom: '1.5rem',
-    textTransform: 'uppercase',
-    letterSpacing: '-1px',
-  };
+    .about-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      color: #181818;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
 
-  const descriptionStyle = {
-    fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-    lineHeight: '1.8',
-    color: '#6B645C',
-    marginBottom: '2rem',
-  };
+    .about-description {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.8;
+      color: #6B645C;
+      margin-bottom: 2rem;
+    }
 
-  const highlightListStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    listStyle: 'none',
-    padding: 0,
-    marginTop: '2rem',
-  };
+    .highlight-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      list-style: none;
+      padding: 0;
+      margin-top: 2rem;
+    }
 
-  const highlightItemStyle = {
-    fontSize: '1rem',
-    color: '#6B645C',
-    padding: '1rem 1.5rem',
-    background: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-    position: 'relative',
-    paddingLeft: '2.5rem',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-  };
+    .highlight-item {
+      font-size: 1rem;
+      color: #6B645C;
+      padding: 1rem 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      position: relative;
+      padding-left: 2.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-  const bulletStyle = {
-    position: 'absolute',
-    left: '1rem',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    width: '8px',
-    height: '8px',
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  };
+    .highlight-item:hover {
+      transform: translateX(8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
 
-  const skillsSectionStyle = {
-    flex: '1 1 500px',
-    maxWidth: '700px',
-  };
+    .bullet {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
 
-  const skillsHeaderStyle = {
-    fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-    fontWeight: '700',
-    color: '#181818',
-    marginBottom: '2rem',
-    textAlign: 'left',
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-  };
+    .about-skills-section {
+      flex: 1 1 500px;
+      max-width: 700px;
+    }
 
-  const skillsGridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-    gap: '1.5rem',
-    padding: '2rem',
-    background: '#F9F9F4',
-    borderRadius: '16px',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-  };
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      background: #F9F9F4;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
 
-  const skillCardStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1.5rem 1rem',
-    background: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
-    transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-    cursor: 'pointer',
-    position: 'relative',
-    overflow: 'hidden',
-  };
+    .skill-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
 
-  const skillImgStyle = {
-    width: '48px',
-    height: '48px',
-    objectFit: 'contain',
-    marginBottom: '0.75rem',
-    transition: 'transform 0.4s ease',
-  };
-
-  const skillNameStyle = {
-    fontSize: '0.9rem',
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-    transition: 'color 0.3s ease',
-  };
-
-  const hoverStyles = `
     .skill-card:hover {
       transform: translateY(-8px) scale(1.05);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     }
     
-    .skill-card:hover img {
+    .skill-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      margin-bottom: 0.75rem;
+      transition: transform 0.4s ease;
+    }
+
+    .skill-card:hover .skill-img {
       transform: scale(1.1) rotate(5deg);
+    }
+    
+    .skill-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+      transition: color 0.3s ease;
     }
     
     .skill-card:hover .skill-name {
@@ -217,58 +213,93 @@ export default function AboutSection() {
       left: 100%;
     }
 
-    .highlight-item:hover {
-      transform: translateX(8px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .about-container {
+        padding: 2rem 1rem;
+        height: auto;
+        min-height: 100vh;
+        display: block; /* Allow natural flow */
+      }
+
+      .about-content-wrapper {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0;
+      }
+
+      .about-text-section, .about-skills-section {
+        flex: 1 1 auto;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller cards */
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .skill-card {
+        padding: 1rem 0.5rem;
+      }
+
+      .skill-img {
+        width: 36px;
+        height: 36px;
+      }
+
+      .skill-name {
+        font-size: 0.8rem;
+      }
     }
   `;
 
   return (
-    <div style={containerStyle}>
-      <style>{hoverStyles}</style>
-      
-      <div style={contentWrapperStyle}>
-        <div style={textSectionStyle}>
-          <h1 style={titleStyle}>About Me</h1>
-          <p style={descriptionStyle}>
-            I'm a passionate software developer with 3 years of experience building scalable applications 
+    <div className="about-container">
+      <style>{styles}</style>
+
+      <div className="about-content-wrapper">
+        <div className="about-text-section">
+          <h1 className="about-title">About Me</h1>
+          <p className="about-description">
+            I'm a passionate software developer with 3 years of experience building scalable applications
             and exploring the exciting world of AI/ML. I love turning complex problems into elegant solutions.
           </p>
-          
-          <ul style={highlightListStyle}>
-            <li style={highlightItemStyle} className="highlight-item">
-              <span style={bulletStyle}></span>
+
+          <ul className="highlight-list">
+            <li className="highlight-item">
+              <span className="bullet"></span>
               Currently pursuing MSc in Artificial Intelligence
             </li>
-            <li style={highlightItemStyle} className="highlight-item">
-              <span style={bulletStyle}></span>
+            <li className="highlight-item">
+              <span className="bullet"></span>
               3+ years of professional development experience
             </li>
-            <li style={highlightItemStyle} className="highlight-item">
-              <span style={bulletStyle}></span>
+            <li className="highlight-item">
+              <span className="bullet"></span>
               Full-stack developer with a focus on modern web technologies
             </li>
-            <li style={highlightItemStyle} className="highlight-item">
-              <span style={bulletStyle}></span>
+            <li className="highlight-item">
+              <span className="bullet"></span>
               Passionate about clean code and continuous learning
             </li>
           </ul>
         </div>
 
-        <div style={skillsSectionStyle}>
-          <div style={skillsGridStyle} ref={gridRef}>
+        <div className="about-skills-section">
+          <div className="skills-grid" ref={gridRef}>
             {skills.map((skill, index) => (
-              <div 
+              <div
                 key={skill.name}
                 className="skill-card"
-                style={skillCardStyle}
               >
-                <img 
-                  src={skill.icon} 
-                  alt={skill.name} 
-                  style={skillImgStyle}
+                <img
+                  src={skill.icon}
+                  alt={skill.name}
+                  className="skill-img"
                 />
-                <span style={skillNameStyle} className="skill-name">
+                <span className="skill-name">
                   {skill.name}
                 </span>
               </div>

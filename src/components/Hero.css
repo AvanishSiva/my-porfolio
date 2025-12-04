@@ -1,11 +1,16 @@
 /* Full hero section */
 .hero {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  /* Changed from height to min-height */
   background-color: #E8E8E3;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+  /* For scroll down positioning */
+  padding-bottom: 4rem;
+  /* Space for scroll down */
 }
 
 /* Huge full-width name */
@@ -13,10 +18,12 @@
   color: #181818;
   font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(2rem, 15vw, 100rem); /* responsive scaling */
+  font-size: clamp(2rem, 15vw, 100rem);
+  /* responsive scaling */
   line-height: 1;
   margin: 0;
-  text-align: center; /* or left if you prefer */
+  text-align: center;
+  /* or left if you prefer */
 }
 
 /* Info section below */
@@ -56,16 +63,36 @@
 }
 
 @keyframes slide {
-  0%, 20% { transform: translateY(0); }
-  25%, 45% { transform: translateY(-3.75rem); }
-  50%, 70% { transform: translateY(-7.5rem); }
-  75%, 95% { transform: translateY(-11.25rem); }
-  100% { transform: translateY(0); }
+
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+
+  25%,
+  45% {
+    transform: translateY(-3.75rem);
+  }
+
+  50%,
+  70% {
+    transform: translateY(-7.5rem);
+  }
+
+  75%,
+  95% {
+    transform: translateY(-11.25rem);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .scroll-down {
   position: absolute;
-  bottom: 2rem;
+  bottom: 6rem;
+  /* Moved up slightly to avoid dock overlap */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -85,17 +112,87 @@
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #6B645C; /* subtle gray tone */
+  color: #6B645C;
+  /* subtle gray tone */
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(6px);
   }
+
   60% {
     transform: translateY(3px);
+  }
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .hero-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .info-block {
+    max-width: 100%;
+    font-size: 1.25rem;
+    /* Smaller font size for mobile */
+    text-align: center;
+  }
+
+  .align-left,
+  .align-right {
+    text-align: center;
+  }
+
+  .role-wrapper {
+    height: 1.875rem;
+    /* Adjusted for smaller font */
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  @keyframes slide {
+
+    0%,
+    20% {
+      transform: translateY(0);
+    }
+
+    25%,
+    45% {
+      transform: translateY(-1.875rem);
+    }
+
+    50%,
+    70% {
+      transform: translateY(-3.75rem);
+    }
+
+    75%,
+    95% {
+      transform: translateY(-5.625rem);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .scroll-down {
+    bottom: 8rem;
+    /* More space for dock on mobile */
   }
 }

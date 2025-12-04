@@ -1,0 +1,316 @@
+.project-container {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #E8E8E3;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.project-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.project-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: #181818;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+}
+
+.project-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #6B645C;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.project-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.project-list {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.project-item {
+    padding: 1.5rem;
+    background: #F9F9F4;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.project-item.selected {
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+    transform: translateX(8px);
+}
+
+.project-item:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.project-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #181818;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.project-item.selected .project-name {
+    color: #667eea;
+}
+
+.project-number {
+    font-size: 0.85rem;
+    color: #6B645C;
+    font-weight: 600;
+}
+
+.detail-panel {
+    flex: 1 1 600px;
+    min-width: 300px;
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-panel.animating {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+}
+
+.detail-header {
+    margin-bottom: 2rem;
+}
+
+.detail-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 800;
+    color: #181818;
+    margin-bottom: 1rem;
+    background: #555;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.featured-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: #898986;
+    color: white;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.project-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.tech-stack-section {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #181818;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.tech-badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    background: #F9F9F4;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 2px solid transparent;
+    min-height: 120px;
+}
+
+.tech-badge-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--tech-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    background: white;
+}
+
+.tech-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.75rem;
+    transition: transform 0.3s ease;
+    object-fit: contain;
+}
+
+.tech-badge-item:hover .tech-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.tech-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.github-button {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.github-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.github-button.disabled {
+    background: #E8E8E3;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.github-button.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.github-button.enabled {
+    background: #555;
+    color: white;
+    cursor: pointer;
+    opacity: 1;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .project-container {
+        padding: 2rem 1rem;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .project-content-wrapper {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .project-list {
+        flex: 1 1 auto;
+        width: 100%;
+        order: 2;
+        /* Move list below details on mobile if desired, or keep above. Plan said stack. */
+    }
+
+    .detail-panel {
+        flex: 1 1 auto;
+        width: 100%;
+        order: 1;
+        /* Show details of selected project first? Or maybe list first? */
+        padding: 1.5rem;
+        min-width: 0;
+    }
+
+    /* Let's keep list on top for navigation, or maybe list is too long?
+     Actually, for mobile, maybe a different layout is better.
+     But for now, let's just stack them. List first is standard.
+  */
+    .project-list {
+        order: 1;
+    }
+
+    .detail-panel {
+        order: 2;
+    }
+
+    .project-item {
+        padding: 1rem;
+    }
+
+    .tech-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+
+    .tech-badge-item {
+        padding: 1rem 0.5rem;
+        min-height: 100px;
+    }
+
+    .tech-icon {
+        width: 36px;
+        height: 36px;
+    }
+}
