@@ -6,7 +6,7 @@ const educationData = [
     degree: "MSc in Artificial Intelligence",
     school: "National College of Ireland",
     date: "2025 - Present",
-    location: "Dublin, UK",
+    location: "Dublin, Ireland",
     coordinates: { lat: 53.3492, lng: -6.2433 },
     description:[
       "Developing expertise in machine learning, deep learning, and intelligent automation. Combining strong software engineering fundamentals with a curiosity for solving complex problems through data and AI.",
