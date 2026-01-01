@@ -8,21 +8,21 @@ export const recapData = {
         {
             month: "January",
             title: "Zoho Life",
-            highlight: "2025 didn’t start with resolutions—it started with a Zoho performance bonus and recognition for last year’s work.",
+            highlight: "2025 didn’t start with resolutions, it started with a Zoho performance bonus and recognition for last year’s work.",
             image: "https://analyticsindiamag.com/wp-content/uploads/2018/08/zoho-1.jpg",
             color: "#FF6B6B"
         },
         {
             month: "March",
             title: "Load Balancing",
-            highlight: "Learning real-world balance—personally and professionally—while shipping load balancing at Zoho.",
+            highlight: "Learning real-world balance, personally and professionally,while shipping load balancing at Zoho.",
             image: "https://www.godaddy.com/resources/in/wp-content/uploads/sites/13/2024/07/Web-hosting.jpg?size=3840x0",
             color: "#4ECDC4"
         },
         {
             month: "August",
             title: "Farewell Zoho",
-            highlight: "Concluding a three-year journey at Zoho, spending the final days wrapping up work and handovers.",
+            highlight: "Concluding a three year journey at Zoho, spending the final days wrapping up work and handovers.",
             image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1920&auto=format&fit=crop",
             color: "#FFE66D"
         },
