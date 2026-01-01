@@ -44,6 +44,25 @@
   color: #6B645C;
 }
 
+.recap-button {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: #181818;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.recap-button:hover {
+  transform: scale(1.05);
+  background: #333;
+}
+
 .align-left {
   text-align: left;
 }
@@ -191,8 +210,19 @@
     }
   }
 
+  .recap-button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    position: relative;
+    z-index: 5;
+  }
+
   .scroll-down {
-    bottom: 8rem;
-    /* More space for dock on mobile */
+    bottom: 6rem;
+  }
+
+  .hero {
+    padding-bottom: 8rem;
   }
 }
