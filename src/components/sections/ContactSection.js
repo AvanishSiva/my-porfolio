@@ -17,7 +17,7 @@ const contactData = {
     {
       name: "LinkedIn",
       icon: <FaLinkedin />,
-      url: "www.linkedin.com/in/sivaavanish-k",
+      url: "https://www.linkedin.com/in/sivaavanish-k/",
       color: "#0077B5",
       handle: "in/sivaavanish-k"
     }
