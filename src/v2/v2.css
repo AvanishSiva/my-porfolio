@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* ── Design Tokens ───────────────────────────────────────────────── */
+:root {
+    --accent: #f97316;
+    /* orange-500 */
+    --accent-light: #fff7ed;
+    /* orange-50  */
+    --text: #0f172a;
+    /* slate-900  */
+    --muted: #64748b;
+    /* slate-500  */
+    --border: #e2e8f0;
+    /* slate-200  */
+    --card: #ffffff;
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+}
+
+/* ── Global Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ── Notebook Dot Grid Background ───────────────────────────────── */
+body {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background-color: #fafafa;
+    background-image: radial-gradient(circle, #d1d5db 1.2px, transparent 1.2px);
+    background-size: 28px 28px;
+    overflow-x: hidden;
+}
+
+/* ── Selection ───────────────────────────────────────────────────── */
+::selection {
+    background: #f97316;
+    color: white;
+}
+
+/* ── Container ───────────────────────────────────────────────────── */
+.v2-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Section spacing ─────────────────────────────────────────────── */
+.v2-section {
+    padding: 6rem 0;
+}
+
+/* ── Section label ───────────────────────────────────────────────── */
+.v2-label {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f97316;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────── */
+.v2-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+}
+
+/* ── Scramble dud colour (from hero) ────────────────────────────── */
+.scramble-dud {
+    color: #f97316;
+}

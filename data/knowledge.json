@@ -1,0 +1,407 @@
+{
+  "repos": [
+    {
+      "name": "portfolio-data",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/portfolio-data",
+      "readme": "# portfolio-data",
+      "updated": "2026-03-10T13:46:40Z"
+    },
+    {
+      "name": "Go-Safe",
+      "description": "Human Safety App",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/Go-Safe",
+      "readme": "# Go-Safe 🛡️\n\n## What it does\nGo-Safe is a personal safety and emergency response application designed to keep users secure. It allows users to instantly alert nearby people and trusted emergency contacts when they are in trouble. By utilizing real-time location tracking and a simple \"Help/Safe\" toggle, the app ensures that distress signals are quickly broadcasted to surrounding users within a 2km radius, fostering a community-driven safety network.\n\n## Features\n- **Real-Time Distress Beacon:** Broadcast your live location and \"help needed\" status to nearby users instantly.\n- **2km Proximity Alerts:** Notifications are smartly routed only to people within a 2000-meter radius to avoid notification spam.\n- **Emergency Contacts Management:** Easily add and manage trusted contacts who you can reach out to in critical moments.\n- **In-App Messaging:** Secure chat functionality with nearby users responding to your distress signal.\n- **\"Mark as Safe\" Toggle:** Instantly disable the distress beacon and notify responders that you are no longer in danger.\n\n## How I built it\n**Stack:** Flutter, Firebase (Authentication, Firestore, Cloud Messaging), Google Maps API\nI chose Flutter to easily build a cross-platform mobile application for both iOS and Android from a single codebase, which is crucial for accessibility in emergencies. Firebase handles all backend operations: user authentication, real-time Firestore database for storing user location and distress states, and Cloud Messaging for instant push notifications. A key technical decision was to design a geo-querying logic that selectively fetches and alerts only users within a 2000-meter radius.\n\n## What was hard\nOne of the main challenges was managing real-time location processing and distance calculation without rapidly depleting the user's battery or hitting Firebase read quota limits. Accurately determining the distance between users and synchronizing state changes (such as toggling between Help and Safe mode and clearing emergency chat states) required careful state management. Additionally, handling background location fetching and ensuring reliable distress status propagation was technically demanding.\n\n## Results / Impact\n- Built a fully functional MVP with real-time distress broadcasting capability.\n- Optimized the nearby-user query to only sync within a 2km radius, significantly reducing unnecessary database reads and computation overhead.\n- Achieved sub-second latency for updating \"Help/Safe\" status across active nearby clients.\n\n## Prerequisites\nBefore you begin, ensure you have met the following requirements:\n*   [Flutter SDK](https://docs.flutter.dev/get-started/install) (version >=2.12.0 <3.0.0)\n*   [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/) with Flutter plugins.\n*   A Firebase project set up for this application.\n*   A Google Maps API Key.\n\n## Installation and Setup\n1. **Clone the repository:**\n   ```sh\n   git clone https://github.co",
+      "updated": "2026-03-10T00:02:54Z"
+    },
+    {
+      "name": "DeepVisionTech-Octave",
+      "description": "",
+      "topics": [],
+      "stars": 3,
+      "url": "https://github.com/AvanishSiva/DeepVisionTech-Octave",
+      "readme": "# BayMax - E-Commerce Shopping Assistant\n\n## What it does\nBayMax is a conversational, voice-enabled AI shopping assistant designed to streamline the online e-commerce experience. It acts as a personal shopping concierge that allows users to search for products, apply filters, explore top brands, check out daily deals, and retrieve detailed product reviews directly through a chat interface. By leveraging data scraped live from Amazon, BayMax provides users with up-to-date pricing, availability, and delivery information. It solves the problem of overwhelming product discovery by guiding users through a seamless, interactive conversational flow.\n\n## How I built it\n**Stack:** Python, Rasa, Flask, BeautifulSoup, PyTorch, HTML/CSS/JS\n\n- **Rasa Framework:** Used for robust Natural Language Understanding (NLU) and dialogue management, allowing the bot to handle complex, multi-turn conversations and contextual entity extraction (e.g., maintaining state for product filters and options).\n- **BeautifulSoup & Requests:** Implemented live web scraping to fetch real-time product search results, reviews, and daily deals directly from Amazon, ensuring the displayed data is never stale.\n- **Voice Synthesis (SV2TTS):** A state-of-the-art Real-Time Voice Cloning system built with PyTorch and served via a Flask backend. It utilizes an encoder, synthesizer (Tacotron), and vocoder to generate natural-sounding speech for the bot's responses.\n- **Frontend UI:** Constructed with HTML, CSS (Bootstrap/Materialize), and JavaScript to provide a responsive web chat interface capable of rendering complex media like product cards, carousels, and suggestion buttons.\n\n## What was hard\n- **Dynamic Web Scraping:** Amazon frequently changes its DOM structure and employs strict anti-bot measures. Extracting consistent product data (prices, images, variants, and reviews) required writing robust fallback parsing logic and handling varying HTML class names to ensure the pipeline didn't break during live interactions.\n- **Voice Synthesis Integration:** Running a real-time voice cloning pipeline with multiple heavy deep learning models (Encoder, Synthesizer, Vocoder) locally is highly resource-intensive. Managing model weights, audio processing (`librosa`), and spectrogram generation within a synchronous Flask API without causing severe memory leaks or timeout issues was a major technical hurdle.\n- **Contextual State Management:** Handling multi-turn e-commerce dialogues in Rasa—such as sequentially searching for a product, filtering by brand, and then isolating a specific option to view full details—required complex custom actions (`actions.py`) and careful slot-filling logic to persist the user's focus across the entire session.\n\n## Results / Impact\n- **Hackathon Success:** Successfully built and showcased a \"Level 3\" conversational agent for the Deep Vision Tech Hackathon (Team Octave) capable of autonomous product discovery.\n- **Time Saved:** Centralized product discovery, daily deals,",
+      "updated": "2026-03-09T23:58:43Z"
+    },
+    {
+      "name": "hands-on-machine-learning",
+      "description": "This is my study material for the book Hands-on Machine Learning Oreilly",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/hands-on-machine-learning",
+      "readme": "# Hands-On Machine Learning\n\nThis repository contains my study materials, code exercises, and implementations based on the book **\"Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow\"** by Aurélien Géron.\n\n## 📚 Repository Contents\n\nThe project is structured by chapters and specific topics covered in the book. All the code is provided as interactive Jupyter Notebooks.\n\n### Core Chapters\n- **Chapter 2: End-to-End Machine Learning Project**\n  - [`Housing Model.ipynb`](./Chapter%202/Housing%20Model.ipynb) - Includes an end-to-end predictive modeling project using the California Housing Prices dataset to train regression models.\n- **Chapter 3: Classification**\n  - [`Classification.ipynb`](./Chapter%203%20-%20Classification/Classification.ipynb) - Covers classification techniques, performance measurements (Precision, Recall, ROC curves), and multiclass classification.\n- **Chapter 6: Decision Trees**\n  - [`DecisionTreeExercises.ipynb`](./Chapter_6%20/DecisionTreeExercises.ipynb) - Demonstrates how to train, visualize, and make predictions with Decision Trees, as well as regularizing hyperparameters.\n- **Chapter 7: Ensemble Learning and Random Forests**\n  - [`Ensemble_Learning_and_Random_Forests.ipynb`](./Ensemble_Learning_and_Random_Forests.ipynb) - Covers the concepts of Voting Classifiers, Bagging, Pasting, Random Forests, and Boosting.\n\n### Prerequisites & Utilities\n- **NumPy**\n  - [`NumpyTutorial.ipynb`](./NumPy/NumpyTutorial.ipynb) - A quick tutorial covering fundamental NumPy structures and operations crucial for scientific computing in Python.\n\n## 🛠️ Tech Stack & Tools\n- Python 3\n- Jupyter Notebook\n- Scikit-Learn\n- Pandas\n- NumPy\n- Matplotlib / Seaborn\n\n## 🚀 Getting Started\n\n1. Clone this repository:\n   ```bash\n   git clone https://github.com/yourusername/hands-on-machine-learning.git\n   ```\n2. Navigate to the project directory:\n   ```bash\n   cd hands-on-machine-learning\n   ```\n3. Install the required dependencies (it is recommended to use a virtual environment):\n   ```bash\n   pip install jupyter scikit-learn pandas numpy matplotlib seaborn\n   ```\n4. Start the Jupyter Notebook server:\n   ```bash\n   jupyter notebook\n   ```\n5. Open the notebook of your choice in the browser to view the code and run the cells.\n",
+      "updated": "2026-03-09T23:49:58Z"
+    },
+    {
+      "name": "dublin_bikes_theft_prediction",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/dublin_bikes_theft_prediction",
+      "readme": "# Graduate Earnings Prediction & Analysis\n\n## What it does\nThis project analyzes higher education graduate data to predict their Median Weekly Earnings. It explores various factors such as graduation year, field of study, employment sector (public vs. private), and regional distribution. Additionally, it groups graduates into distinct clusters to uncover hidden patterns in earning profiles.\n\n## How I built it\n**Stack**: Python, Pandas, Scikit-Learn, TensorFlow/Keras\n\n*   **Pandas**: Used for data cleaning, pivoting, and merging multiple raw datasets (HGO14, HGO15, HGO17) into a unified feature set, handling missing values and encoding categorical data.\n*   **TensorFlow/Keras**: Implemented an initial Baseline Neural Network Regression (NNR) model with multiple Dense layers to predict earnings. \n*   **Scikit-Learn (Random Forest)**: The baseline NN initially underfit the data. I used a Random Forest Regressor to calculate feature importance, extracting the top 15 most impactful features to train a second, improved Neural Network.\n*   **Scikit-Learn (KMeans & PCA)**: Used unsupervised learning (KMeans) to segment graduates into distinct earning clusters, using Silhouette scores and the Elbow method to find the optimal `k=3`. PCA was used to reduce dimensionality for 2D visualization of these clusters.\n\n## What was hard\n*   **Initial Model Underfitting**: The baseline Neural Network model initially struggled to capture the patterns and underfit the target variable. Overcoming this required pivoting to a Random Forest approach specifically to extract feature importance, and then retraining on a reduced subset of data.\n*   **High Dimensionality**: One-hot encoding fields of study and regions created a large number of features. Identifying which ones actually drove earnings (like `Years since Graduation`, `private_share`, etc.) was challenging before the feature reduction step.\n*   **Cluster Evaluation**: Determining the right number of clusters for graduate profiles required calculating both Inertias (for the elbow method) and Silhouette scores across a range of k-values to confidently settle on 3 distinct profiles.\n\n## Results / Impact\n*   **Enhanced Predictive Accuracy**: Successfully improved the Root Mean Square Error (RMSE) and the $R^2$ score by moving from the baseline Neural Network to the feature-reduced Neural Network.\n*   **Actionable Insights**: Grouped the graduate data into 3 clearly defined clusters, allowing for direct comparison of average median weekly earnings, years since graduation, and sector distribution (public vs. private) across different graduate archetypes.\n",
+      "updated": "2026-03-09T23:45:21Z"
+    },
+    {
+      "name": "job_tracker",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/job_tracker",
+      "readme": "# AI-Powered Job Tracker\r\n\r\n## What it does\r\nManually updating spreadsheets for dozens of job applications is a tedious and error-prone process. The AI-Powered Job Tracker solves this by intelligently monitoring your incoming Gmail messages (such as application confirmations, interview invites, and rejections) and automatically syncing those updates to a centralized Kanban board. It is built for active job seekers who want a streamlined, automated way to track their application pipeline without the overhead of manual data entry.\r\n\r\n## How I built it\r\n**Stack**: Next.js 14, AWS Lambda (Node.js), Amazon DynamoDB, AWS CDK, Google Gemini Flash 1.5, Gmail API\r\n\r\n**Why these choices?** \r\nI chose an **AWS Serverless architecture** (Lambda + DynamoDB) because it provides a highly scalable, event-driven infrastructure that fits a background polling workload perfectly, while remaining extremely cost-effective. **Next.js 14** was used to deliver a snappy, responsive frontend featuring both Kanban board and Data Table views. For the intelligence layer, **Google Gemini Flash 1.5** was selected for its fast, context-aware NLP capabilities, allowing the system to accurately filter out noise (like marketing spam) and correctly categorize diverse email templates from dozens of different ATS platforms.\r\n\r\n## What was hard\r\n- **Data Quality & Inconsistent ATS Formats**: Job application emails come in wildly different formats from various platforms (Workday, Greenhouse, Lever, etc.). Getting the AI to reliably extract the correct company name, role, and job stage without hallucinating required extensive iterative prompt engineering and context tuning with Gemini.\r\n- **Rate Limiting & Token Optimization**: Continuously polling the Gmail API and passing context to the Gemini API could easily lead to rate limits or high token costs. I solved this by implementing a cursor-based polling mechanism in the Lambda agent to only fetch emails from the last 2 days, and strictly pre-filtering promotional/social emails before they ever reach the LLM.\r\n- **State Synchronization**: Designing the architecture to gracefully handle backend state updates—such as moving an application from \"Applied\" to \"Interviewing\" via the automated agent—without accidentally overwriting the user's manual UI edits required robust database design in DynamoDB.\r\n\r\n## Results / Impact\r\n- **Time Saved**: Eliminated manual data entry, saving hours of weekly spreadsheet management and tracking during active job searches.\r\n- **Accuracy**: Successfully and intelligently categorized job stages (Applied, Assessment, Interviewing, Rejected) across multiple different employer email templates.\r\n- **Performance**: The serverless Lambda polling architecture processes and categorizes background email batches in under 5 seconds, keeping cloud infrastructure costs at near-zero during idle periods.\r\n\r\n---\r\n\r\n## Gallery\r\n\r\n<div align=\"center\">\r\n  <img src=\"assets/screenshots/board-view.png\" alt=\"Job Board View\" width=\"800",
+      "updated": "2026-03-09T23:38:50Z"
+    },
+    {
+      "name": "silicon-feed",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/silicon-feed",
+      "readme": "# 🚀 SiliconFeed\n\nSiliconFeed is an end-to-end, AI-powered tech news curation platform. It scrapes over 150+ RSS and Atom feeds, uses NLP methodologies to cluster redundant stories, and leverages local Large Language Models (LLMs) to generate concise, high-signal news articles categorized for easy reading.\n\nThis repository is a monorepo containing the **React Frontend**, the **Express.js API Backend**, and the **Python AI Data Pipeline**.\n\n---\n\n## 💻 Tech Stack\n\n- **Frontend**: React (v19), React Router DOM (v7), Tailwind CSS\n- **Backend**: Node.js, Express.js (v4), Axios\n- **AI/ML Pipeline**: Python (v3.10+), BeautifulSoup4, Transformers, Sumy (TextRank)\n- **Database / Infrastructure**: Firebase Admin SDK, Google Cloud Firestore\n- **Local AI Engine**: Ollama (`llama3.1:8b`)\n\n---\n\n## 🏗 System Architecture\n\nThe project consists of three primarily decoupled layers intercommunicating via **Firebase/Firestore** and local HTTP APIs:\n\n1. **Python AI Pipeline (`/run_pipeline.py` & `/backend/py/`)**\n   - Scrapes ~150 XML/RSS feeds across various tech domains.\n   - Cleans the raw data and saves it to Firestore (`raw_articles`).\n   - Clusters articles using **TextRank** (`sumy`) to avoid sending 50 articles on the same topic to the LLM.\n   - Passes clustered summaries to a local **Ollama** instance (`llama3.1:8b`) to generate unified titles, descriptions, and full articles.\n   - Stores finalized articles in the `summaries` Firestore collection.\n2. **Node.js/Express Backend (`/backend/index.js`)**\n   - Serves as the API gateway for the frontend.\n   - Connects to Firestore via `firebase-admin` to serve AI-generated articles.\n   - Handles the AI chat endpoint (`/api/chat`), proxying specific context-aware system prompts to local Ollama.\n   - Integrates with external social APIs (e.g., Moltbook API).\n3. **React Frontend (`/src/`)**\n   - A single-page application built with React and TailwindCSS.\n   - Fetches and renders curated content from the Express API.\n   - Features a floating Chat Widget that streams responses from the AI persona (A tech journalist).\n\n---\n\n## 📂 Repository Structure\n\n```text\nsilicon-feed/\n├── package.json               # Frontend React dependencies\n├── public/                    # Static assets\n├── src/                       # React frontend source code\n│   ├── components/            # Reusable UI components (ChatWidget, CategoryBadge, etc.)\n│   ├── pages/                 # Route components (Home, ArticlePage)\n│   ├── context/               # React Providers (ThemeContext)\n│   └── App.js                 # Router setup\n├── run_pipeline.py            # Main entry point to run the scheduled Python task\n└── backend/\n    ├── package.json           # Express backend dependencies\n    ├── index.js               # Express application and API routes\n    ├── serviceAccountKey.json # Firebase Admin SDK credentials (gitignored)\n    └── py/                    # Python Data Pipeline\n        ├── Collector.py       # RSS/Atom scraper\n        └── brain/\n",
+      "updated": "2026-03-09T23:30:04Z"
+    },
+    {
+      "name": "skills-integrate-mcp-with-copilot",
+      "description": "Exercise: Integrate Model Context Protocol with GitHub Copilot",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/skills-integrate-mcp-with-copilot",
+      "readme": "# Integrate MCP with Copilot\n\n<img src=\"https://octodex.github.com/images/Professortocat_v2.png\" align=\"right\" height=\"200px\" />\n\nHey AvanishSiva!\n\nMona here. I'm done preparing your exercise. Hope you enjoy! 💚\n\nRemember, it's self-paced so feel free to take a break! ☕️\n\n[![](https://img.shields.io/badge/Go%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/AvanishSiva/skills-integrate-mcp-with-copilot/issues/1)\n\n---\n\n&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)\n\n",
+      "updated": "2026-02-19T19:16:02Z"
+    },
+    {
+      "name": "my-porfolio",
+      "description": "This is my portfolio",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/my-porfolio",
+      "readme": "# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in your browser.\n\nThe page will reload when you make changes.\\\nYou may also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can't go back!**\n\nIf you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.\n\nYou don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)\n\n### Deployment\n\nThis section has moved here: [https://facebook.github",
+      "updated": "2026-01-01T07:20:58Z"
+    },
+    {
+      "name": "top-of-my-head",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/top-of-my-head",
+      "readme": "",
+      "updated": "2025-07-13T14:35:29Z"
+    },
+    {
+      "name": "Brighten-Up",
+      "description": "Speaking Motivational App",
+      "topics": [],
+      "stars": 3,
+      "url": "https://github.com/AvanishSiva/Brighten-Up",
+      "readme": "# Brighten_Up\nSpeaking Motivational App\n\nhttps://user-images.githubusercontent.com/74535459/121701160-409d2600-caee-11eb-9934-9b5c505180d6.mp4\n\n\n\n\n\n## Getting Started\n\nThis project is a starting point for a Flutter application.\n\nA few resources to get you started if this is your first Flutter project:\n\n- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)\n- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)\n\nFor help getting started with Flutter, view our\n[online documentation](https://flutter.dev/docs), which offers tutorials,\nsamples, guidance on mobile development, and a full API reference.\n",
+      "updated": "2025-01-24T21:46:24Z"
+    },
+    {
+      "name": "React-Documentation",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/React-Documentation",
+      "readme": "",
+      "updated": "2022-08-17T17:24:27Z"
+    },
+    {
+      "name": "SajuLoom",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/SajuLoom",
+      "readme": "### Hi there 👋, I am Sivaavanish K\n#### Intern @ZOHO, Chennai\n#### Studying @SKCET,Coimbatore\n![Studying @SKCET,Coimbatore](https://elements-cover-images-0.imgix.net/6e855666-1764-4019-be9e-998505bd3fdf?auto=compress&crop=edges&fit=crop&fm=jpeg&h=630&w=1200&s=fffbff5628fab9da0e2697d748790e92)\n\nLanguages and Tools:\n\n<p align=\"left\"> <a href=\"https://www.cprogramming.com/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg\" alt=\"c\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3schools.com/cpp/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg\" alt=\"cplusplus\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3schools.com/css/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg\" alt=\"css3\" width=\"40\" height=\"40\"/> </a> <a href=\"https://dart.dev\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg\" alt=\"dart\" width=\"40\" height=\"40\"/> </a> <a href=\"https://firebase.google.com/\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg\" alt=\"firebase\" width=\"40\" height=\"40\"/> </a> <a href=\"https://flutter.dev\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg\" alt=\"flutter\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3.org/html/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg\" alt=\"html5\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.java.com\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg\" alt=\"java\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.mysql.com/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg\" alt=\"mysql\" width=\"40\" height=\"40\"/> </a> <a href=\"https://opencv.org/\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg\" alt=\"opencv\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.python.org\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg\" alt=\"python\" width=\"40\" height=\"40\"/> </a> </p>\n\n\n- 🔭 I’m currently working on DeepVisionTech Hackathon \n- 🌱 I’m currently learning React.js \n\n\n[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='40'>](https://github.com/SajuLoom)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/dev-dot-to.svg' alt='dev' height='40'>](https://dev.to/sajuloom)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/linkedin.svg' alt='linkedin' height='40'>](https://www.linkedin.com/in/sivaavanish-k-5b6899203/)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/instagram.svg' alt='insta",
+      "updated": "2022-07-04T19:52:13Z"
+    },
+    {
+      "name": "zero2-bot",
+      "description": "Discord Bot using Discord.py",
+      "topics": [],
+      "stars": 3,
+      "url": "https://github.com/AvanishSiva/zero2-bot",
+      "readme": "<center><img src=\"https://images.hdqwalls.com/wallpapers/darling-in-the-franx-p6.jpg\" alt = \"Zero2 Discord Bot\"></img></center>\n\n<h1 align=\"center\"> Zero2 Bot</h1>\n<p align =\"center\">Discord Bot using Discord.py</p>\n\n<h1 align=\"center\">Overview</h1>\n<br>\nZero2 Discord bot is written with Discord.py using Python. This Bot's role is to perform fun, search engines, miscellaneous, fun, and games command. This Discord bot is developed mostly for educational purposes and personal uses. \n\n## Commands\n### Music\n`*join`: to join voice channel\n<br>\n<br>\n`*leave`: to leave voice channel\n<br>\n<br>\n`*play <song_name>` : to play song on the channel (requirements : Name of the Song)\n<br>\n<br>\n`*queue` : to view all the Songs in Queue\n<br>\n<br>\n`*search <song_name>` : to get top five results from youtube for given song (requirements: Name of the Song)\n<br>\n<br>\n`*skip` : to skip currently playing song\n<br>\n<br>\n\n### Search Engine\n`*wiki <search>` : to get top wikipedia articles of the given topic (requirement: Topic)\n<br>\n<br>\n`*gsearch <search>` : to get top google searchs of the given topic (requirement: Topic)\n<br>\n<br>\n`*gmeaning <word>` : to get noun and verb meanings of the word (requirements : Word)\n<br>\n<br>\n`*gimage <topic>` : to get relative images for the searhed entry\n### Miscellaneous\n`*spam <User> <amount>` : to spam someone's for n times (requirements: Mention)\n<br>\n<br>\n`*avatar <User>` : to view someone's Profile Picture (requirements: Mention)\n<br>\n<br>\n\n### Fun\n`*8ball <Question>` : to get random yes/no reply for the question (requirements: Question)\n\n### Misc\n`*pool<choices>` : pool choices for users to react with their answer(requirements: Choices)\n\n<br>\n<br>\n<h1 align =\"center\">⛑Under Construction🦺🧱</h1>\n",
+      "updated": "2021-10-14T21:27:42Z"
+    },
+    {
+      "name": "Portfolio",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/Portfolio",
+      "readme": "# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in the browser.\n\nThe page will reload if you make edits.\\\nYou will also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can’t go back!**\n\nIf you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.\n\nYou don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)\n\n### Deployment\n\nThis section has moved here: [https://facebook.github.io/",
+      "updated": "2021-10-02T22:35:37Z"
+    },
+    {
+      "name": "random_generator",
+      "description": "",
+      "topics": [],
+      "stars": 2,
+      "url": "https://github.com/AvanishSiva/random_generator",
+      "readme": "# Random Generator\n\nThe main idea of this repo is a practice to React.js,Generating Random Names,Address,Phone Number,E-Mails and so on for the uses of development purposes.\nStill Developing DONT Stalk😛\n\n\n# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in the browser.\n\nThe page will reload if you make edits.\\\nYou will also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can’t go back!**\n\nIf you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.\n\nYou don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebo",
+      "updated": "2021-09-29T10:03:31Z"
+    },
+    {
+      "name": "Custom-Flutter-UI",
+      "description": "navigation bar",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/Custom-Flutter-UI",
+      "readme": "# custom_navigation_bar\n\nA new Flutter project.\n\n## Getting Started\n\nThis project is a starting point for a Flutter application.\n\nA few resources to get you started if this is your first Flutter project:\n\n- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)\n- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)\n\nFor help getting started with Flutter, view our\n[online documentation](https://flutter.dev/docs), which offers tutorials,\nsamples, guidance on mobile development, and a full API reference.\n",
+      "updated": "2021-09-18T13:12:22Z"
+    },
+    {
+      "name": "attendence_system",
+      "description": "",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/attendence_system",
+      "readme": "# attendence_system\nadd photos to Indentity folder to add canditates for attendence system\n",
+      "updated": "2021-08-08T06:11:36Z"
+    },
+    {
+      "name": "GlanceAt",
+      "description": "A Wallpaper App",
+      "topics": [],
+      "stars": 3,
+      "url": "https://github.com/AvanishSiva/GlanceAt",
+      "readme": "\n# GlanceAt\n\nA Flutter Wallpaper App\n\n## API Used\n\nhttps://www.pexels.com/api/\n## Home\n![Screenshot_1622745239 (1)](https://user-images.githubusercontent.com/74535459/120695839-76785400-c4c9-11eb-9e42-707620875d68.png)\n\n\n## Search Option\n![Screenshot_1622745257](https://user-images.githubusercontent.com/74535459/120695951-94de4f80-c4c9-11eb-8f3f-d6b2b10b775f.png)\n\n\n## Preview Screen \nwith Download button\n\n![Screenshot_1622745269](https://user-images.githubusercontent.com/74535459/120695997-a6275c00-c4c9-11eb-8a1a-b5db7645c7a7.png)\n\n\n",
+      "updated": "2021-06-03T18:44:06Z"
+    },
+    {
+      "name": "github-slideshow",
+      "description": "A robot powered training repository :robot:",
+      "topics": [],
+      "stars": 1,
+      "url": "https://github.com/AvanishSiva/github-slideshow",
+      "readme": "# Your GitHub Learning Lab Repository for Introducing GitHub\n\nWelcome to **your** repository for your GitHub Learning Lab course. This repository will be used during the different activities that I will be guiding you through. See a word you don't understand? We've included an emoji 📖 next to some key terms. Click on it to see its definition.\n\nOh! I haven't introduced myself...\n\nI'm the GitHub Learning Lab bot and I'm here to help guide you in your journey to learn and master the various topics covered in this course. I will be using Issue and Pull Request comments to communicate with you. In fact, I already added an issue for you to check out.\n\n![issue tab](https://lab.github.com/public/images/issue_tab.png)\n\nI'll meet you over there, can't wait to get started!\n\nThis course is using the :sparkles: open source project [reveal.js](https://github.com/hakimel/reveal.js/). In some cases we’ve made changes to the history so it would behave during class, so head to the original project repo to learn more about the cool people behind this project.\n",
+      "updated": "2020-11-16T09:29:53Z"
+    }
+  ],
+  "portfolio": {
+    "name": "Sivaavanish Kanagasabapathi",
+    "title": "Full-Stack Developer & AI Engineer",
+    "tagline": "3 years building production systems at Zoho. Currently completing MSc AI at NCI Dublin.",
+    "about": "AI Engineer and Full-Stack Developer with 3 years of production experience at Zoho (ManageEngine), where I built AI-driven Agents, Systems and full-stack features used by enterprise clients globally. My work there directly contributed to 22% growth in new customer acquisitions and a 30% reduction in request latency. Currently completing an MSc in Artificial Intelligence at National College of Ireland, with active projects in LLM agents, serverless event-driven pipelines, and AI-powered workflow automation. I enjoy building systems that actually ship — not just demos.",
+    "availability": "Actively looking for AI Engineer or Full-Stack Developer roles. Open to both full time and intern opportunities.",
+    "location": "Dublin, Ireland. Open to remote and hybrid roles.",
+    "contact": {
+      "email": "sivaavanishk@gmail.com",
+      "phone": "086 206 6418",
+      "linkedin": "linkedin.com/in/sivaavanish-k",
+      "github": "github.com/AvanishSiva",
+      "website": "sivaavanish.dev"
+    },
+    "highlights": [
+      "Built AI-powered workflow integration at Zoho that contributed to 22% growth in new customer acquisitions",
+      "Designed Load Balancing Framework that reduced request latency by 30% for enterprise clients",
+      "Built a LangGraph conversational agent for student finance — categorises transactions, tracks spending, predicts savings runway",
+      "Led team building an XGBoost + LangChain escalation prevention agent at Laya × NCI Hackathon",
+      "Built a serverless AI job tracker on AWS (Lambda, EventBridge, DynamoDB) that autonomously reads Gmail and tracks application status",
+      "Recognised as 5-star developer in Zoho's company-wide rating system",
+      "MSc AI candidate at NCI Dublin — modules include ML, Intelligent Agents, AI-Driven Decision Making"
+    ],
+    "experience": [
+      {
+        "role": "Member of Technical Staff (Full-Stack Developer)",
+        "company": "Zoho — ManageEngine ServiceDesk Plus",
+        "period": "May 2023 – Sep 2025",
+        "highlights": [
+          "Built AI-powered workflow integration framework connecting ServiceDesk Plus with third-party platforms",
+          "Designed Load Balancing Framework — reduced latency by 30%",
+          "Python integration pulling competitor product data, resulting in 22% increase in new customer acquisitions",
+          "REST API framework that reduced customer support tickets by 5%",
+          "Deployed backend services on AWS EC2 and S3 for enterprise clients",
+          "5-star developer rating across the company"
+        ]
+      },
+      {
+        "role": "Project Trainee",
+        "company": "Zoho — ManageEngine ServiceDesk Plus",
+        "period": "Jul 2022 – May 2023",
+        "highlights": [
+          "Full-stack development in production environment",
+          "Security hardening across XSS, SQL injection, CSP and XML bomb vectors",
+          "Optimised PostgreSQL queries — 7% efficiency improvement"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "degree": "MSc Artificial Intelligence",
+        "institution": "National College of Ireland, Dublin",
+        "period": "2025 – 2026",
+        "modules": [
+          "Machine Learning",
+          "Intelligent Agents and Process Automation",
+          "AI-Driven Decision Making",
+          "Data Analytics for AI",
+          "Data Governance and Ethics"
+        ]
+      },
+      {
+        "degree": "BE (Hons) Computer Science — 1st Class Honours",
+        "institution": "Anna University, India",
+        "period": "2019 – 2023",
+        "gpa": "9.16 / 10"
+      }
+    ],
+    "skills": {
+      "strong": [
+        "Python",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Next.js",
+        "FastAPI",
+        "Django",
+        "Node.js",
+        "LangChain",
+        "LangGraph",
+        "AWS Lambda",
+        "AWS EventBridge",
+        "DynamoDB",
+        "PostgreSQL",
+        "MongoDB",
+        "Docker",
+        "Git"
+      ],
+      "familiar": [
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn",
+        "spaCy",
+        "NLTK",
+        "XGBoost",
+        "Pandas",
+        "NumPy",
+        "AWS SageMaker",
+        "AWS EC2",
+        "S3",
+        "Java",
+        "Spring Boot",
+        "R"
+      ]
+    },
+    "ai_stack": [
+      "LangChain",
+      "LangGraph",
+      "Google Gemini API",
+      "FLAN-T5",
+      "Rasa",
+      "XGBoost",
+      "TF-IDF",
+      "K-Means",
+      "AWS SageMaker"
+    ],
+    "projects": [
+      {
+        "name": "UniFund — AI-Powered Student Finance Assistant",
+        "year": 2025,
+        "status": "in progress",
+        "context": "Citi Upstart Entrepreneurship Program",
+        "stack": [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "Python",
+          "LangGraph",
+          "Local LLM"
+        ],
+        "summary": "Co-leading development of a full-stack AI finance assistant for students. Built a LangGraph conversational agent that categorises transactions, tracks spending patterns, delivers personalised saving advice, and predicts how long a student's savings will last based on their spending trajectory.",
+        "highlights": [
+          "LangGraph agent with transaction categorisation",
+          "Runway prediction logic for proactive budget planning",
+          "Mentored by Citi managers on product strategy"
+        ]
+      },
+      {
+        "name": "Escalation Prevention AI Agent",
+        "year": 2025,
+        "status": "in progress",
+        "context": "Laya × NCI Hackathon",
+        "stack": [
+          "Python",
+          "XGBoost",
+          "LangChain",
+          "ML Pipeline"
+        ],
+        "summary": "Leading a team building a proactive customer care system that predicts insurance claim escalation risk using an XGBoost classifier. A LangChain agent interprets escalation predictions and autonomously selects actions — sending alerts, triggering auto-replies, or escalating to a human. Uses chain-of-thought reasoning so every decision is auditable.",
+        "highlights": [
+          "XGBoost classifier on in-app behavioural data",
+          "LangChain agent with chain-of-thought reasoning",
+          "End-to-end ML pipeline from feature extraction to real-time inference"
+        ]
+      },
+      {
+        "name": "Job Tracker — AI Agent-Based Job Application Tracker",
+        "year": 2025,
+        "status": "complete",
+        "stack": [
+          "Python",
+          "AWS Lambda",
+          "EventBridge",
+          "DynamoDB",
+          "API Gateway",
+          "Google Gemini",
+          "OAuth"
+        ],
+        "summary": "Serverless, event-driven system that autonomously reads Gmail application emails and updates job status (Applied, Interview, Rejected, Offer) using Google Gemini for structured decision-making. Runs on AWS with idempotent execution — DynamoDB conditional writes, TTL-based deduplication, and JSON schema validation prevent duplicates and hallucinated updates.",
+        "highlights": [
+          "Fully serverless on AWS — Lambda, EventBridge, DynamoDB",
+          "Gemini-powered structured decision-making",
+          "Idempotent AI execution — no duplicate or hallucinated updates",
+          "OAuth-based Gmail integration"
+        ]
+      },
+      {
+        "name": "Silicon Feed — AI Article Website",
+        "year": 2025,
+        "status": "complete",
+        "stack": [
+          "Python",
+          "MongoDB",
+          "FLAN-T5",
+          "TF-IDF",
+          "K-Means",
+          "REST API"
+        ],
+        "summary": "AI-powered engine that collects tech news from multiple RSS feeds, clusters articles using TF-IDF + K-Means, and summarises them using FLAN-T5. Scalable Python-MongoDB data pipeline with a REST backend serving content to a web frontend.",
+        "highlights": [
+          "TF-IDF + K-Means clustering across multiple RSS sources",
+          "FLAN-T5 for lightweight summarisation",
+          "Full pipeline from ingestion to frontend"
+        ]
+      },
+      {
+        "name": "BayMax Chatbot — AI eCommerce Assistant",
+        "year": 2023,
+        "status": "complete",
+        "stack": [
+          "Python",
+          "Django",
+          "Rasa",
+          "NLP"
+        ],
+        "summary": "NLP-powered eCommerce shopping assistant built with a Python/Django backend and the Rasa framework for natural language understanding. Provides context-aware responses to user queries.",
+        "highlights": [
+          "Rasa NLP for intent recognition and context-aware responses",
+          "Django-powered full-stack architecture"
+        ]
+      }
+    ],
+    "preferred_role": "AI Engineer, Full-Stack Developer, or ML Engineer — ideally combining both",
+    "currently_learning": "Agentic AI systems, LangGraph, multimodal models, serverless ML pipelines",
+    "open_to": [
+      "Full-time",
+      "Contract",
+      "Remote",
+      "Hybrid",
+      "Dublin-based"
+    ]
+  },
+  "synced_at": "2026-03-10T18:35:57.895Z"
+}
