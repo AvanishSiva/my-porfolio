@@ -270,6 +270,8 @@
         "Git"
       ],
       "familiar": [
+        "Flutter",
+        "Firebase",
         "PyTorch",
         "TensorFlow",
         "Scikit-learn",

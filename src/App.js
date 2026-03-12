@@ -8,9 +8,9 @@ import "./App.css";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainPortfolio />} />
+      <Route path="/" element={<V2Portfolio />} />
+      <Route path="/v1" element={<MainPortfolio />} />
       <Route path="/2025-recap" element={<RecapSection />} />
-      <Route path="/v2" element={<V2Portfolio />} />
     </Routes>
   );
 }

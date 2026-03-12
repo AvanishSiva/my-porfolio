@@ -68,8 +68,9 @@ export default function ContactV2() {
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
                                 gap: '1rem',
+                                overflow: 'hidden',
                             }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', minWidth: 0, flex: 1 }}>
                                     <div style={{
                                         width: '42px', height: '42px', borderRadius: '10px',
                                         background: '#fff7ed', border: '1px solid #fed7aa',
@@ -78,11 +79,11 @@ export default function ContactV2() {
                                     }}>
                                         {item.icon}
                                     </div>
-                                    <div>
+                                    <div style={{ minWidth: 0 }}>
                                         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.72rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.1rem' }}>
                                             {item.label}
                                         </p>
-                                        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.9rem', color: '#0f172a', fontWeight: 500 }}>
+                                        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.9rem', color: '#0f172a', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                             {item.value}
                                         </p>
                                     </div>
