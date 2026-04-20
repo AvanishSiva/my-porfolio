@@ -19,7 +19,7 @@ const projects = [
         subtitle: 'Citi Upstart — AI-Powered Student Finance Assistant',
         description: 'Co-leading a full-stack AI finance assistant for students powered by a locally-hosted LLM. A LangGraph conversational agent auto-categorises transactions, tracks spending patterns, delivers personalised saving advice, and predicts financial runway based on spending trajectory.',
         stack: ['React', 'Next.js', 'TypeScript', 'Python', 'LangGraph'],
-        github: "null",
+        github: null,
         featured: true,
         emoji: '💰',
         inProgress: true,
