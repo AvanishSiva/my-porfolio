@@ -6,12 +6,49 @@ import { ExternalLink, Lock } from 'lucide-react';
 
 const projects = [
     {
-        name: 'BayMax Chatbot',
-        subtitle: 'AI-Powered eCommerce Assistant',
-        description: 'Intelligent eCommerce chatbot using Python, Django, and Rasa NLP, with automated data scraping from Amazon and Flipkart for real-time, context-aware shopping assistance.',
-        stack: ['Python', 'Django', 'Rasa NLP', 'TensorFlow'],
-        github: 'https://github.com/AvanishSiva/DeepVisionTech-Octave',
+        name: 'LayaForesight',
+        subtitle: 'Laya × NCI Hackathon — Escalation Prevention AI Agent',
+        description: 'Leading a team building a proactive customer care system that predicts claim escalation risk using an XGBoost classifier. A LangChain agent autonomously interprets predictions and selects appropriate actions — alerts, auto-replies, or human escalation — with chain-of-thought reasoning for full auditability.',
+        stack: ['Python', 'XGBoost', 'LangChain', 'LLM'],
+        github: "https://github.com/Laya-hackathon/laya-foresight",
         featured: true,
+        emoji: '🛡️',
+    },
+    {
+        name: 'UniFund',
+        subtitle: 'Citi Upstart — AI-Powered Student Finance Assistant',
+        description: 'Co-leading a full-stack AI finance assistant for students powered by a locally-hosted LLM. A LangGraph conversational agent auto-categorises transactions, tracks spending patterns, delivers personalised saving advice, and predicts financial runway based on spending trajectory.',
+        stack: ['React', 'Next.js', 'TypeScript', 'Python', 'LangGraph'],
+        github: "null",
+        featured: true,
+        emoji: '💰',
+        inProgress: true,
+    },
+    {
+        name: 'Job Tracker',
+        subtitle: 'AI Agent-based Job Application Tracker',
+        description: 'AI-agent–driven job tracking system that autonomously reads Gmail application emails and updates job status (Applied, Interview, Rejected, Offer) using Google Gemini. Serverless event-driven architecture on AWS with idempotent DynamoDB writes and TTL-based deduplication to prevent hallucinated updates.',
+        stack: ['Python', 'Google Gemini', 'AWS Lambda', 'DynamoDB', 'EventBridge'],
+        github: "https://github.com/AvanishSiva/job_tracker",
+        featured: true,
+        emoji: '📋',
+    },
+    {
+        name: 'Silicon Feed',
+        subtitle: 'AI-Powered Tech News Summarizer',
+        description: 'AI-powered engine that collects tech news from multiple RSS feeds, clusters articles using TF-IDF + K-Means, and generates concise summaries with FLAN-T5. Built on a scalable Python-MongoDB data pipeline with a REST backend serving summarised content to a web frontend.',
+        stack: ['Python', 'MongoDB', 'TF-IDF', 'K-Means', 'FLAN-T5'],
+        github: "https://github.com/AvanishSiva/silicon-feed",
+        featured: true,
+        emoji: '📰',
+    },
+    {
+        name: 'BayMax Chatbot',
+        subtitle: 'AI-Powered eCommerce Shopping Assistant',
+        description: 'Intelligent eCommerce chatbot built with a Python/Django backend and the open-source Rasa NLP framework, enabling context-aware, accurate responses to user shopping queries.',
+        stack: ['Python', 'Django', 'Rasa NLP', 'NLP'],
+        github: 'https://github.com/AvanishSiva/DeepVisionTech-Octave',
+        featured: false,
         emoji: '🤖',
     },
     {
@@ -20,7 +57,7 @@ const projects = [
         description: 'Cross-platform mobile safety app using Flutter and Firebase — real-time data sync, secure authentication, and satellite mapping via Google Maps API.',
         stack: ['Flutter', 'Firebase', 'Dart', 'Google Maps'],
         github: 'https://github.com/AvanishSiva/Go-Safe',
-        featured: true,
+        featured: false,
         emoji: '📍',
     },
     {
@@ -70,8 +107,17 @@ function ProjectCard({ proj, index }) {
                     overflow: 'hidden',
                 }}
             >
-                {/* Featured badge */}
-                {proj.featured && (
+                {/* Featured / In Progress badge */}
+                {proj.inProgress ? (
+                    <span style={{
+                        position: 'absolute', top: '1.25rem', right: '1.25rem',
+                        fontFamily: "'Inter', sans-serif", fontSize: '0.68rem', fontWeight: 700,
+                        textTransform: 'uppercase', letterSpacing: '0.1em',
+                        color: '#7c3aed', background: '#f5f3ff',
+                        border: '1px solid #ddd6fe',
+                        padding: '0.2rem 0.6rem', borderRadius: '9999px',
+                    }}>In Progress</span>
+                ) : proj.featured && (
                     <span style={{
                         position: 'absolute', top: '1.25rem', right: '1.25rem',
                         fontFamily: "'Inter', sans-serif", fontSize: '0.68rem', fontWeight: 700,
