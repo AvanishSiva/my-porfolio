@@ -402,6 +402,39 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    if (req.method === 'POST' && req.url === '/api/agent') {
+        // SSE headers — keep connection open, stream events as they happen
+        res.writeHead(200, {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection':    'keep-alive',
+        });
+
+        const send = (event, data) => {
+            res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+        };
+
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
+            try {
+                const { query, history = [] } = JSON.parse(body);
+
+                const { runAgentLoop } = await import('./lib/agentLoop.js');
+                await runAgentLoop(query, history, send);
+            } catch (err) {
+                send('done', {
+                    reply: 'Something went wrong.',
+                    component: { component: 'TextResponse', props: { text: err.message } },
+                    followups: [],
+                });
+            } finally {
+                res.end();
+            }
+        });
+        return;
+    }
+
     if (req.method !== 'POST' || req.url !== '/api/chat') {
         res.writeHead(404);
         res.end(JSON.stringify({ error: 'Not found' }));
