@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MoveRight, ArrowUp } from 'lucide-react';
 import { ResolveChatComponent } from '../components/chat/ChatComponents';
+import AgentTrace from '../components/chat/AgentTrace';
 
 const titles = ['Software Engineer', 'AI Enthusiast', 'Full-Stack Dev', 'Problem Solver', 'Open to Work'];
 
 const API_URL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3001/api/chat'
-    : '/api/chat';
+    ? 'http://localhost:3001/api/agent'
+    : '/api/agent';
 
 const SUGGESTIONS = [
     { label: 'About Siva',        text: 'Tell me about Siva' },
@@ -19,6 +20,21 @@ const SUGGESTIONS = [
 
 const bubbleSpring = { type: 'spring', stiffness: 420, damping: 28, mass: 0.7 };
 
+function summarizeBot(component, props, reply) {
+    if (reply) return reply;
+    if (!component) return '[responded]';
+    switch (component) {
+        case 'ProjectCard':   return `Showed project: ${props?.title ?? ''}`;
+        case 'ProjectList':   return `Showed projects: ${(props?.projects ?? []).map(p => p.name).slice(0, 3).join(', ')}`;
+        case 'SkillList':     return 'Showed skills overview';
+        case 'AboutCard':     return `About: ${(props?.summary ?? '').slice(0, 80)}`;
+        case 'Timeline':      return 'Showed career timeline';
+        case 'ContactCard':   return 'Showed contact info';
+        case 'TextResponse':  return (props?.text ?? '').slice(0, 120);
+        default:              return `[${component}]`;
+    }
+}
+
 // Format messages into Claude-compatible history (last 6 messages = 3 turns)
 function buildHistory(messages) {
     return messages
@@ -27,7 +43,7 @@ function buildHistory(messages) {
             role: m.role === 'user' ? 'user' : 'assistant',
             content: m.role === 'user'
                 ? m.text
-                : JSON.stringify({ component: m.component, props: m.props }),
+                : summarizeBot(m.component, m.props, m.reply),
         }));
 }
 
@@ -39,6 +55,10 @@ export default function HeroV2() {
     const [currentPair, setCurrentPair] = useState(null); // { userText, botComponent, botProps }
     const [input, setInput]             = useState('');
     const [loading, setLoading]         = useState(false);
+    const [traceEvents, setTraceEvents] = useState([]);
+    const [thinking, setThinking]       = useState('');
+    const [reply, setReply]             = useState('');
+    const [followups, setFollowups]     = useState([]);
     const chatWrapRef                   = useRef(null);
 
     const hasMessages = currentPair !== null;
@@ -82,6 +102,10 @@ export default function HeroV2() {
 
     const fetchReply = async (query, history) => {
         setLoading(true);
+        setTraceEvents([]);
+        setThinking('');
+        setReply('');
+        setFollowups([]);
         try {
             const res = await fetch(API_URL, {
                 method: 'POST',
@@ -91,12 +115,41 @@ export default function HeroV2() {
 
             if (!res.ok) throw new Error('API error');
 
-            const data = await res.json();
-            setMessages(prev => [...prev, { role: 'bot', component: data.component, props: data.props }]);
-            setCurrentPair(prev => ({ ...prev, botComponent: data.component, botProps: data.props }));
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                const lines = buffer.split('\n');
+                buffer = lines.pop();
+
+                let eventType = null;
+                for (const line of lines) {
+                    if (line.startsWith('event:')) {
+                        eventType = line.slice(6).trim();
+                    } else if (line.startsWith('data:')) {
+                        const payload = JSON.parse(line.slice(5).trim());
+                        if (eventType === 'thinking') {
+                            setThinking(payload.text);
+                        } else if (eventType === 'trace') {
+                            setTraceEvents(prev => [...prev, payload]);
+                        } else if (eventType === 'done') {
+                            setReply(payload.reply ?? '');
+                            setFollowups(payload.followups ?? []);
+                            setMessages(prev => [...prev, { role: 'bot', component: payload.component?.component, props: payload.component?.props, reply: payload.reply ?? '' }]);
+                            setCurrentPair(prev => ({ ...prev, botComponent: payload.component?.component, botProps: payload.component?.props }));
+                        }
+                        eventType = null;
+                    }
+                }
+            }
         } catch {
-            setMessages(prev => [...prev, { role: 'bot', component: 'TextResponse', props: { text: "Something went wrong. Try again in a moment." } }]);
-            setCurrentPair(prev => ({ ...prev, botComponent: 'TextResponse', botProps: { text: "Something went wrong. Try again in a moment." } }));
+            setMessages(prev => [...prev, { role: 'bot', component: 'TextResponse', props: { text: 'Something went wrong. Try again in a moment.' } }]);
+            setCurrentPair(prev => ({ ...prev, botComponent: 'TextResponse', botProps: { text: 'Something went wrong. Try again in a moment.' } }));
         } finally {
             setLoading(false);
         }
@@ -278,8 +331,24 @@ export default function HeroV2() {
                                         initial={{ opacity: 0, scale: 0.7 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={bubbleSpring}
-                                        style={{ display: 'flex', justifyContent: 'flex-start' }}
+                                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}
                                     >
+                                        {thinking && (
+                                            <div style={{
+                                                fontFamily: "'Inter', sans-serif",
+                                                fontSize: '0.78rem', color: '#64748b',
+                                                fontStyle: 'italic', lineHeight: 1.5,
+                                                background: '#f8fafc',
+                                                border: '1px solid #e2e8f0',
+                                                borderRadius: '10px',
+                                                padding: '0.5rem 0.75rem',
+                                                textAlign: 'left',
+                                                width: '100%',
+                                            }}>
+                                                💭 {thinking}
+                                            </div>
+                                        )}
+                                        <AgentTrace traceEvents={traceEvents} isRunning={loading} />
                                         <div style={{ background: '#e9e9eb', borderRadius: '18px', padding: '0.65rem 0.95rem', display: 'flex', gap: '4px', alignItems: 'center' }}>
                                             {[0, 1, 2].map(j => (
                                                 <motion.span key={j}
@@ -297,6 +366,11 @@ export default function HeroV2() {
                                         transition={{ ...bubbleSpring, delay: 0.05 }}
                                         style={{ width: '100%' }}
                                     >
+                                        {reply && (
+                                            <div style={{ background: '#e9e9eb', borderRadius: '18px 18px 18px 5px', padding: '0.65rem 0.95rem', fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.5, color: '#1c1c1e', textAlign: 'left', marginBottom: '0.65rem' }}>
+                                                {reply}
+                                            </div>
+                                        )}
                                         {currentPair.botComponent === 'TextResponse' ? (
                                             <div style={{ background: '#e9e9eb', borderRadius: '18px 18px 18px 5px', padding: '0.65rem 0.95rem', fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.5, color: '#1c1c1e', textAlign: 'left' }}>
                                                 {currentPair.botProps?.text}
@@ -306,6 +380,38 @@ export default function HeroV2() {
                                         )}
                                     </motion.div>
                                 )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* ── Followup chips ── */}
+                    <AnimatePresence>
+                        {!loading && followups.length > 0 && (
+                            <motion.div
+                                key="followups"
+                                initial={{ opacity: 0, y: 6 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -6 }}
+                                transition={{ duration: 0.3 }}
+                                style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', justifyContent: 'center', marginBottom: '0.9rem' }}
+                            >
+                                {followups.map((q) => (
+                                    <motion.button
+                                        key={q}
+                                        whileHover={{ y: -2, scale: 1.02 }}
+                                        whileTap={{ scale: 0.96 }}
+                                        onClick={() => send(q)}
+                                        style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: '0.75rem', fontWeight: 500,
+                                            color: '#ea580c', background: '#fff7ed',
+                                            border: '1px solid #fed7aa', borderRadius: '9999px',
+                                            padding: '0.35rem 0.85rem', cursor: 'pointer',
+                                        }}
+                                    >
+                                        {q}
+                                    </motion.button>
+                                ))}
                             </motion.div>
                         )}
                     </AnimatePresence>
