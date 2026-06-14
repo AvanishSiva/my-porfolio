@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MoveRight, ArrowUp } from 'lucide-react';
 import { ResolveChatComponent } from '../components/chat/ChatComponents';
-import AgentTrace from '../components/chat/AgentTrace';
+import { ExecutionTimeline, ReasoningToggle } from '../components/chat/AgentTrace';
 
 const titles = ['Software Engineer', 'AI Enthusiast', 'Full-Stack Dev', 'Problem Solver', 'Open to Work'];
 
@@ -11,11 +11,11 @@ const API_URL = process.env.NODE_ENV === 'development'
     : '/api/agent';
 
 const SUGGESTIONS = [
-    { label: 'About Siva',        text: 'Tell me about Siva' },
-    { label: 'Experience',        text: 'What is his work experience?' },
-    { label: 'Projects',          text: 'What projects has he built?' },
-    { label: 'Skills & stack',    text: 'What are his skills and tech stack?' },
-    { label: 'How to hire?',      text: 'How do I hire or contact Siva?' },
+    { label: 'About Siva',     text: 'Tell me about Siva' },
+    { label: 'Experience',     text: 'What is his work experience?' },
+    { label: 'Projects',       text: 'What projects has he built?' },
+    { label: 'Skills & stack', text: 'What are his skills and tech stack?' },
+    { label: 'How to hire?',   text: 'How do I hire or contact Siva?' },
 ];
 
 const bubbleSpring = { type: 'spring', stiffness: 420, damping: 28, mass: 0.7 };
@@ -24,18 +24,17 @@ function summarizeBot(component, props, reply) {
     if (reply) return reply;
     if (!component) return '[responded]';
     switch (component) {
-        case 'ProjectCard':   return `Showed project: ${props?.title ?? ''}`;
-        case 'ProjectList':   return `Showed projects: ${(props?.projects ?? []).map(p => p.name).slice(0, 3).join(', ')}`;
-        case 'SkillList':     return 'Showed skills overview';
-        case 'AboutCard':     return `About: ${(props?.summary ?? '').slice(0, 80)}`;
-        case 'Timeline':      return 'Showed career timeline';
-        case 'ContactCard':   return 'Showed contact info';
-        case 'TextResponse':  return (props?.text ?? '').slice(0, 120);
-        default:              return `[${component}]`;
+        case 'ProjectCard':  return `Showed project: ${props?.title ?? ''}`;
+        case 'ProjectList':  return `Showed projects: ${(props?.projects ?? []).map(p => p.name).slice(0, 3).join(', ')}`;
+        case 'SkillList':    return 'Showed skills overview';
+        case 'AboutCard':    return `About: ${(props?.summary ?? '').slice(0, 80)}`;
+        case 'Timeline':     return 'Showed career timeline';
+        case 'ContactCard':  return 'Showed contact info';
+        case 'TextResponse': return (props?.text ?? '').slice(0, 120);
+        default:             return `[${component}]`;
     }
 }
 
-// Format messages into Claude-compatible history (last 6 messages = 3 turns)
 function buildHistory(messages) {
     return messages
         .slice(-6)
@@ -50,28 +49,26 @@ function buildHistory(messages) {
 export default function HeroV2() {
     const [titleIdx, setTitleIdx]     = useState(0);
     const [chatActive, setChatActive]   = useState(false);
-    const [messages, setMessages]       = useState([]); // full history for API context
-    const [activeIdx, setActiveIdx]     = useState(0);  // key for AnimatePresence transition
-    const [currentPair, setCurrentPair] = useState(null); // { userText, botComponent, botProps }
+    const [messages, setMessages]       = useState([]);
+    const [activeIdx, setActiveIdx]     = useState(0);
+    const [currentPair, setCurrentPair] = useState(null);
     const [input, setInput]             = useState('');
     const [loading, setLoading]         = useState(false);
     const [traceEvents, setTraceEvents] = useState([]);
     const [thinking, setThinking]       = useState('');
+    const [streamText, setStreamText]   = useState('');
     const [reply, setReply]             = useState('');
     const [followups, setFollowups]     = useState([]);
     const chatWrapRef                   = useRef(null);
 
     const hasMessages = currentPair !== null;
 
-    // Cycle subtitle when idle
     useEffect(() => {
         if (chatActive) return;
         const t = setTimeout(() => setTitleIdx(i => (i + 1) % titles.length), 2200);
         return () => clearTimeout(t);
     }, [titleIdx, chatActive]);
 
-
-    // Close chat on outside click (only if no messages yet)
     useEffect(() => {
         if (!chatActive || hasMessages) return;
         const handler = (e) => {
@@ -93,7 +90,6 @@ export default function HeroV2() {
         const nextMessages = [...messages, { role: 'user', text: query }];
         setMessages(nextMessages);
 
-        // Show user bubble immediately, transition to new exchange
         setActiveIdx(i => i + 1);
         setCurrentPair({ userText: query, botComponent: null, botProps: null });
 
@@ -104,6 +100,7 @@ export default function HeroV2() {
         setLoading(true);
         setTraceEvents([]);
         setThinking('');
+        setStreamText('');
         setReply('');
         setFollowups([]);
         try {
@@ -115,7 +112,7 @@ export default function HeroV2() {
 
             if (!res.ok) throw new Error('API error');
 
-            const reader = res.body.getReader();
+            const reader  = res.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
 
@@ -135,13 +132,24 @@ export default function HeroV2() {
                         const payload = JSON.parse(line.slice(5).trim());
                         if (eventType === 'thinking') {
                             setThinking(payload.text);
+                        } else if (eventType === 'stream') {
+                            setStreamText(prev => prev + payload.text);
                         } else if (eventType === 'trace') {
                             setTraceEvents(prev => [...prev, payload]);
                         } else if (eventType === 'done') {
                             setReply(payload.reply ?? '');
                             setFollowups(payload.followups ?? []);
-                            setMessages(prev => [...prev, { role: 'bot', component: payload.component?.component, props: payload.component?.props, reply: payload.reply ?? '' }]);
-                            setCurrentPair(prev => ({ ...prev, botComponent: payload.component?.component, botProps: payload.component?.props }));
+                            setMessages(prev => [...prev, {
+                                role: 'bot',
+                                component: payload.component?.component,
+                                props: payload.component?.props,
+                                reply: payload.reply ?? '',
+                            }]);
+                            setCurrentPair(prev => ({
+                                ...prev,
+                                botComponent: payload.component?.component,
+                                botProps: payload.component?.props,
+                            }));
                         }
                         eventType = null;
                     }
@@ -164,12 +172,8 @@ export default function HeroV2() {
             id="v2-hero"
             style={{
                 minHeight: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingTop: '5rem',
-                paddingBottom: '3rem',
-                position: 'relative',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                paddingTop: '5rem', paddingBottom: '3rem', position: 'relative',
             }}
         >
             <div className="v2-container" style={{ width: '100%', textAlign: 'center' }}>
@@ -203,13 +207,11 @@ export default function HeroV2() {
                     )}
                 </AnimatePresence>
 
-                {/* ── Name — shrinks gently when chat opens ── */}
+                {/* ── Name ── */}
                 <div style={{
                     fontFamily: "'Playfair Display', serif",
                     fontSize: chatActive ? '2rem' : 'clamp(2.8rem, 7vw, 5.5rem)',
-                    fontWeight: 700,
-                    lineHeight: 1.15,
-                    letterSpacing: '-0.025em',
+                    fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em',
                     color: '#0f172a',
                     marginBottom: chatActive ? '1.25rem' : '0.35rem',
                     opacity: chatActive ? 0.45 : 1,
@@ -275,111 +277,158 @@ export default function HeroV2() {
                     transition={{ duration: 0.6, delay: 0.7 }}
                     style={{ maxWidth: '580px', margin: '0 auto', position: 'relative' }}
                 >
-                    {/* Live label */}
-                    <div style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        gap: '0.5rem', marginBottom: '1.1rem',
-                    }}>
-                        <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <motion.span
-                                animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
-                                transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
-                                style={{ position: 'absolute', width: '8px', height: '8px', borderRadius: '50%', background: '#f97316' }}
-                            />
-                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f97316', position: 'relative' }} />
-                        </span>
-                        <span style={{
-                            fontFamily: "'Inter', sans-serif", fontSize: '0.72rem',
-                            fontWeight: 600, letterSpacing: '0.13em', textTransform: 'uppercase', color: '#94a3b8',
-                        }}>
-                            Chat with my Clone
-                        </span>
-                    </div>
-
-                    {/* ── Latest exchange only — transitions on each new message ── */}
-                    <AnimatePresence mode="wait">
+                    {/* ── Agent panel (appears on first message) ── */}
+                    <AnimatePresence>
                         {hasMessages && (
                             <motion.div
-                                key={activeIdx}
-                                initial={{ opacity: 0, y: 16 }}
+                                key="agent-panel"
+                                initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -16 }}
-                                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                                style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingBottom: '1.25rem' }}
+                                exit={{ opacity: 0, y: -8 }}
+                                transition={{ duration: 0.3 }}
+                                style={{
+                                    background: 'white',
+                                    border: `1px solid ${loading ? 'rgba(249,115,22,0.25)' : '#e2e8f0'}`,
+                                    borderRadius: '20px', overflow: 'hidden',
+                                    boxShadow: loading
+                                        ? '0 4px 24px rgba(249,115,22,0.09), 0 0 0 1px rgba(249,115,22,0.12)'
+                                        : '0 4px 24px rgba(0,0,0,0.07)',
+                                    marginBottom: '0.85rem',
+                                    transition: 'border-color 0.4s, box-shadow 0.4s',
+                                }}
                             >
-                                {/* User bubble */}
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingLeft: '15%' }}>
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.88, y: 6 }}
-                                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        transition={bubbleSpring}
-                                        style={{
-                                            background: 'linear-gradient(160deg,#f97316,#ea580c)',
-                                            borderRadius: '18px 18px 5px 18px',
-                                            padding: '0.65rem 0.95rem',
-                                            fontFamily: "'Inter',sans-serif",
-                                            fontSize: '0.88rem', lineHeight: 1.5, color: 'white',
-                                        }}
-                                    >
-                                        {currentPair.userText}
-                                    </motion.div>
+                                {/* Agent header */}
+                                <div style={{
+                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                    padding: '0.7rem 1rem', borderBottom: '1px solid #e2e8f0', background: '#f8fafc',
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                                        <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '8px', height: '8px', flexShrink: 0 }}>
+                                            <motion.span
+                                                animate={{ scale: [1, 2.4, 1], opacity: [0.5, 0, 0.5] }}
+                                                transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+                                                style={{ position: 'absolute', width: '8px', height: '8px', borderRadius: '50%', background: '#f97316' }}
+                                            />
+                                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f97316', position: 'relative' }} />
+                                        </span>
+                                        <span style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: '0.64rem', fontWeight: 700,
+                                            letterSpacing: '0.13em', textTransform: 'uppercase', color: '#64748b',
+                                        }}>
+                                            Siva's AI Agent
+                                        </span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex', alignItems: 'center', gap: '0.35rem',
+                                        background: 'white', border: '1px solid #e2e8f0',
+                                        borderRadius: '6px', padding: '0.22rem 0.6rem',
+                                    }}>
+                                        <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#f97316', flexShrink: 0 }} />
+                                        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.62rem', fontWeight: 600, color: '#94a3b8' }}>
+                                            claude-sonnet-4-6
+                                        </span>
+                                    </div>
                                 </div>
 
-                                {/* Bot response */}
-                                {loading ? (
+                                {/* Messages */}
+                                <AnimatePresence mode="wait">
                                     <motion.div
-                                        initial={{ opacity: 0, scale: 0.7 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={bubbleSpring}
-                                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}
+                                        key={activeIdx}
+                                        initial={{ opacity: 0, y: 14 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -14 }}
+                                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                        style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
                                     >
-                                        {thinking && (
-                                            <div style={{
-                                                fontFamily: "'Inter', sans-serif",
-                                                fontSize: '0.78rem', color: '#64748b',
-                                                fontStyle: 'italic', lineHeight: 1.5,
-                                                background: '#f8fafc',
-                                                border: '1px solid #e2e8f0',
-                                                borderRadius: '10px',
-                                                padding: '0.5rem 0.75rem',
-                                                textAlign: 'left',
-                                                width: '100%',
-                                            }}>
-                                                💭 {thinking}
-                                            </div>
-                                        )}
-                                        <AgentTrace traceEvents={traceEvents} isRunning={loading} />
-                                        <div style={{ background: '#e9e9eb', borderRadius: '18px', padding: '0.65rem 0.95rem', display: 'flex', gap: '4px', alignItems: 'center' }}>
-                                            {[0, 1, 2].map(j => (
-                                                <motion.span key={j}
-                                                    animate={{ y: [0, -4, 0] }}
-                                                    transition={{ repeat: Infinity, duration: 0.6, delay: j * 0.15, ease: 'easeInOut' }}
-                                                    style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#8e8e93', display: 'inline-block' }}
-                                                />
-                                            ))}
+                                        {/* User bubble */}
+                                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingLeft: '18%' }}>
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.88, y: 6 }}
+                                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                transition={bubbleSpring}
+                                                style={{
+                                                    background: 'linear-gradient(160deg,#f97316,#ea580c)',
+                                                    borderRadius: '18px 18px 5px 18px',
+                                                    padding: '0.65rem 0.95rem',
+                                                    fontFamily: "'Inter',sans-serif",
+                                                    fontSize: '0.88rem', lineHeight: 1.5, color: 'white', textAlign: 'left',
+                                                }}
+                                            >
+                                                {currentPair.userText}
+                                            </motion.div>
                                         </div>
-                                    </motion.div>
-                                ) : currentPair.botComponent && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.92, y: 8 }}
-                                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        transition={{ ...bubbleSpring, delay: 0.05 }}
-                                        style={{ width: '100%' }}
-                                    >
-                                        {reply && (
-                                            <div style={{ background: '#e9e9eb', borderRadius: '18px 18px 18px 5px', padding: '0.65rem 0.95rem', fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.5, color: '#1c1c1e', textAlign: 'left', marginBottom: '0.65rem' }}>
-                                                {reply}
-                                            </div>
+
+                                        {/* Loading: execution timeline + streaming reply */}
+                                        {loading && (
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.97 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={bubbleSpring}
+                                                style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
+                                            >
+                                                <ExecutionTimeline traceEvents={traceEvents} isRunning={!streamText} />
+
+                                                <AnimatePresence>
+                                                    {streamText && (
+                                                        <motion.div
+                                                            key="stream-text"
+                                                            initial={{ opacity: 0, y: 4 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ duration: 0.2 }}
+                                                            style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}
+                                                        >
+                                                            <AgentAvatar />
+                                                            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.65, color: '#334155', paddingTop: '0.05rem' }}>
+                                                                {streamText}
+                                                                <motion.span
+                                                                    animate={{ opacity: [1, 0, 1] }}
+                                                                    transition={{ repeat: Infinity, duration: 0.9 }}
+                                                                    style={{ display: 'inline-block', marginLeft: '1px', fontWeight: 300, color: '#f97316' }}
+                                                                >▋</motion.span>
+                                                            </p>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            </motion.div>
                                         )}
-                                        {currentPair.botComponent === 'TextResponse' ? (
-                                            <div style={{ background: '#e9e9eb', borderRadius: '18px 18px 18px 5px', padding: '0.65rem 0.95rem', fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.5, color: '#1c1c1e', textAlign: 'left' }}>
-                                                {currentPair.botProps?.text}
-                                            </div>
-                                        ) : (
-                                            <ResolveChatComponent component={currentPair.botComponent} props={currentPair.botProps} />
+
+                                        {/* Response */}
+                                        {!loading && currentPair.botComponent && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 8 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ ...bubbleSpring, delay: 0.05 }}
+                                                style={{ textAlign: 'left' }}
+                                            >
+                                                {/* SA avatar + reply text */}
+                                                {currentPair.botComponent === 'TextResponse' ? (
+                                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                                                        <AgentAvatar />
+                                                        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.65, color: '#334155', paddingTop: '0.05rem' }}>
+                                                            {reply || currentPair.botProps?.text}
+                                                        </p>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        {reply && (
+                                                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', marginBottom: '0.7rem' }}>
+                                                                <AgentAvatar />
+                                                                <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.88rem', lineHeight: 1.65, color: '#334155', paddingTop: '0.05rem' }}>
+                                                                    {reply}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                        <ResolveChatComponent component={currentPair.botComponent} props={currentPair.botProps} />
+                                                    </>
+                                                )}
+
+                                                {/* Reasoning toggle */}
+                                                <ReasoningToggle traceEvents={traceEvents} />
+                                            </motion.div>
                                         )}
                                     </motion.div>
-                                )}
+                                </AnimatePresence>
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -419,8 +468,7 @@ export default function HeroV2() {
                     {/* ── Input pill ── */}
                     <div style={{
                         display: 'flex', alignItems: 'center', gap: '0.5rem',
-                        background: 'white',
-                        borderRadius: '999px',
+                        background: 'white', borderRadius: '999px',
                         padding: '0.55rem 0.6rem 0.55rem 1.25rem',
                         boxShadow: chatActive
                             ? '0 0 0 1.5px #f97316, 0 4px 20px rgba(249,115,22,0.12)'
@@ -432,11 +480,10 @@ export default function HeroV2() {
                             onChange={e => setInput(e.target.value)}
                             onKeyDown={handleKey}
                             onFocus={() => setChatActive(true)}
-                            placeholder="Ask me anything…"
+                            placeholder={hasMessages ? 'Ask a follow-up…' : 'Ask about Siva…'}
                             disabled={loading}
                             style={{
-                                flex: 1,
-                                fontFamily: "'Inter', sans-serif",
+                                flex: 1, fontFamily: "'Inter', sans-serif",
                                 fontSize: '0.95rem', color: '#0f172a',
                                 background: 'transparent', border: 'none', outline: 'none',
                                 padding: '0.25rem 0', caretColor: '#f97316',
@@ -460,7 +507,7 @@ export default function HeroV2() {
                         </motion.button>
                     </div>
 
-                    {/* ── Suggestion chips — disappear once conversation starts ── */}
+                    {/* ── Suggestion chips ── */}
                     <AnimatePresence>
                         {!hasMessages && (
                             <motion.div
@@ -469,10 +516,7 @@ export default function HeroV2() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -6 }}
                                 transition={{ duration: 0.3, delay: chatActive ? 0 : 0.85 }}
-                                style={{
-                                    display: 'flex', flexWrap: 'wrap', gap: '0.4rem',
-                                    justifyContent: 'center', marginTop: '0.9rem',
-                                }}
+                                style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', justifyContent: 'center', marginTop: '0.9rem' }}
                             >
                                 {SUGGESTIONS.map(({ label, text }) => (
                                     <motion.button
@@ -529,5 +573,17 @@ export default function HeroV2() {
 
             </div>
         </section>
+    );
+}
+
+function AgentAvatar() {
+    return (
+        <div style={{
+            width: '28px', height: '28px', borderRadius: '8px', flexShrink: 0,
+            background: 'linear-gradient(135deg,#f97316,#ea580c)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '0.58rem', fontWeight: 800, color: 'white',
+            fontFamily: "'Inter',sans-serif", letterSpacing: 0, marginTop: '2px',
+        }}>SA</div>
     );
 }
