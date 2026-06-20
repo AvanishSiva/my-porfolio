@@ -2,8 +2,7 @@
 // Same logic runs locally (via server.js) and in production (this Edge Function)
 import { runAgentLoop } from '../lib/agentLoop.js'
 
-// Tell Vercel: run this on Edge Runtime — required for SSE streaming in production
-export const config = { runtime: 'edge' }
+export const config = { runtime: 'nodejs' }
 
 // Vercel calls this function on every POST request to /api/agent
 export default async function handler(req) {
