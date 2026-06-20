@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "siva-portfolio": {
+      "command": "node",
+      "args": ["--env-file=.env.local", "mcp/server.js"],
+      "cwd": "/Users/sivaavanish/Portfolio/my-portfolio/my-portfolio"
+    }
+  }
+}
