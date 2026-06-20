@@ -7,6 +7,8 @@ import { getResume }      from '../lib/tools/getResume.js'
 import { getLiveGithub }  from '../lib/tools/getLiveGithub.js'
 import { getKnowledge }   from '../lib/knowledge.js'
 
+
+
 export const config = { runtime: 'edge' }
 
 function buildServer() {
