@@ -13,7 +13,6 @@ const server = new McpServer({
   version: '1.0.0',
 })
 
-// ── Tools ──────────────────────────────────────────────────────────────────────
 
 server.tool(
   'get_profile',
@@ -56,7 +55,6 @@ server.tool(
   }
 )
 
-// ── Resources ──────────────────────────────────────────────────────────────────
 
 server.resource(
   'knowledge',
@@ -84,7 +82,6 @@ server.resource(
   })
 )
 
-// ── Start ──────────────────────────────────────────────────────────────────────
 
 const transport = new StdioServerTransport()
 await server.connect(transport)
