@@ -9,7 +9,7 @@ import { getKnowledge }   from '../lib/knowledge.js'
 
 
 
-export const config = { runtime: 'edge' }
+export const config = { runtime: 'nodejs' }
 
 function buildServer() {
   const server = new McpServer({
