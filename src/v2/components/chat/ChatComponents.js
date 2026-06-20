@@ -384,6 +384,127 @@ export function ContactCard({ message, email, availability }) {
     );
 }
 
+// ─── RecruiterCard ────────────────────────────────────────────────────────────
+
+export function RecruiterCard({ role, intro, projects = [], cta }) {
+    return (
+        <motion.div {...fadeUp} style={{ width: '100%' }}>
+            <div style={{
+                background: 'white', borderRadius: '16px',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                border: '1px solid #f1f5f9',
+                overflow: 'hidden',
+            }}>
+                {/* Header */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #fff7ed, #ffedd5)',
+                    borderBottom: '1px solid #fed7aa',
+                    padding: '0.9rem 1.25rem',
+                    display: 'flex', alignItems: 'center', gap: '0.6rem',
+                }}>
+                    <div style={{
+                        width: '30px', height: '30px', borderRadius: '8px', flexShrink: 0,
+                        background: 'linear-gradient(135deg,#f97316,#ea580c)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.85rem',
+                    }}>🎯</div>
+                    <div>
+                        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#ea580c', marginBottom: '0.1rem' }}>
+                            Curated for you
+                        </p>
+                        <p style={{ fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>
+                            {role}
+                        </p>
+                    </div>
+                </div>
+
+                <div style={{ padding: '1rem 1.25rem' }}>
+                    {intro && (
+                        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.8rem', color: '#64748b', lineHeight: 1.55, marginBottom: '0.9rem' }}>
+                            {intro}
+                        </p>
+                    )}
+
+                    {/* Project list */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: cta ? '1rem' : 0 }}>
+                        {projects.map((p, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.25, delay: i * 0.08 }}
+                                style={{
+                                    borderRadius: '12px',
+                                    border: '1px solid #f1f5f9',
+                                    background: '#fafafa',
+                                    padding: '0.75rem 0.9rem',
+                                }}
+                            >
+                                {/* Name + link */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                    <p style={{ fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: '0.85rem', color: '#0f172a' }}>
+                                        {p.name}
+                                    </p>
+                                    {p.url && (
+                                        <a href={p.url} target="_blank" rel="noreferrer"
+                                            style={{ color: '#94a3b8', flexShrink: 0 }}
+                                            onMouseEnter={e => e.currentTarget.style.color = '#f97316'}
+                                            onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}
+                                        >
+                                            <ExternalLink size={13} />
+                                        </a>
+                                    )}
+                                </div>
+
+                                {/* One-liner */}
+                                {p.one_line && (
+                                    <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.76rem', color: '#64748b', lineHeight: 1.45, marginBottom: '0.5rem' }}>
+                                        {p.one_line}
+                                    </p>
+                                )}
+
+                                {/* Stack tags */}
+                                {p.stack?.length > 0 && (
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginBottom: p.recent_commit ? '0.5rem' : 0 }}>
+                                        {p.stack.map(s => <Tag key={s} variant="orange">{s}</Tag>)}
+                                    </div>
+                                )}
+
+                                {/* Recent commit */}
+                                {p.recent_commit && (
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                        <Github size={11} style={{ color: '#94a3b8', flexShrink: 0 }} />
+                                        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.7rem', color: '#94a3b8', lineHeight: 1.3 }}>
+                                            {p.recent_commit}
+                                            {p.last_active && <span style={{ marginLeft: '0.4rem', color: '#cbd5e1' }}>· {p.last_active}</span>}
+                                        </p>
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* CTA */}
+                    {cta && (
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: '0.5rem',
+                            background: 'linear-gradient(135deg, #fff7ed, #ffedd5)',
+                            border: '1px solid #fed7aa',
+                            borderRadius: '10px',
+                            padding: '0.6rem 0.85rem',
+                        }}>
+                            <Zap size={13} style={{ color: '#f97316', flexShrink: 0 }} />
+                            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '0.78rem', fontWeight: 600, color: '#9a3412' }}>
+                                {cta}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </motion.div>
+    )
+}
+
 // ─── TextResponse ─────────────────────────────────────────────────────────────
 
 export function TextResponse({ text }) {
@@ -398,7 +519,7 @@ export function TextResponse({ text }) {
 
 // ─── Resolver ─────────────────────────────────────────────────────────────────
 
-const COMPONENT_MAP = { ProjectCard, ProjectList, SkillList, AboutCard, Timeline, ContactCard, TextResponse };
+const COMPONENT_MAP = { ProjectCard, ProjectList, SkillList, AboutCard, Timeline, ContactCard, RecruiterCard, TextResponse };
 
 export function ResolveChatComponent({ component, props }) {
     const Comp = COMPONENT_MAP[component];
