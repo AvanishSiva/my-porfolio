@@ -1,22 +1,31 @@
 {
   "repos": [
     {
-      "name": "portfolio-data",
+      "name": "my-porfolio",
+      "description": "This is my portfolio",
+      "topics": [],
+      "stars": 0,
+      "url": "https://github.com/AvanishSiva/my-porfolio",
+      "readme": "# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in your browser.\n\nThe page will reload when you make changes.\\\nYou may also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can't go back!**\n\nIf you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.\n\nYou don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)\n\n### Deployment\n\nThis section has moved here: [https://facebook.github",
+      "updated": "2026-06-20T22:57:59Z"
+    },
+    {
+      "name": "Multi-agent-Relfection-Evaluation",
       "description": "",
       "topics": [],
       "stars": 0,
-      "url": "https://github.com/AvanishSiva/portfolio-data",
-      "readme": "# portfolio-data",
-      "updated": "2026-03-10T13:46:40Z"
+      "url": "https://github.com/AvanishSiva/Multi-agent-Relfection-Evaluation",
+      "readme": "# Scenario Specification — Multi-Agent Negotiation\n\n*The game two AI agents play, written so anyone can follow it.*\n\n---\n\n## 1. The idea in one paragraph\n\nTwo AI agents share a small pile of items. They must split **every** item between them by talking it out. Each agent secretly values the items differently, and neither can see the other's values: they have to figure that out from the conversation. If they're smart, both can walk away happy, because they often want different things. If they argue too long and never agree, **both get nothing**. We use this game to test whether giving an agent a moment to *reflect* before it speaks makes it (a) share better and (b) stop contradicting itself.\n\nThis is the classic **\"Deal or No Deal\" multi-issue bargaining task** (Lewis et al., 2017), the standard testbed for this kind of negotiation. We keep the scenario standard on purpose, so that any improvement we measure can be credited to *reflection*, not to a custom game.\n\n---\n\n## 2. The pile (the \"pool\")\n\nThere are **3 item types, 2 of each** — 6 items total:\n\n| Item | Count |\n|------|-------|\n| Books | 2 |\n| Hats  | 2 |\n| Balls | 2 |\n\n**Rule:** every item must go to Agent A or Agent B. Nothing is left over, nothing is split in half.\n\n---\n\n## 3. What each agent wants (goals)\n\nEach agent has a **private valuation**:  how many points each item type is worth *to them*. The other agent never sees these numbers; it can only guess from what's said.\n\nTwo fairness rules on the setup:\n\n- An agent's values over the **whole pile always add up to 10**, so both agents care about the pile equally in total.\n- Values are fixed for the whole negotiation (an agent doesn't suddenly start liking something new).\n\n**Each agent's goal:** end up with the set of items worth the most points *to itself* — while remembering that walking away with no deal is worth **zero**. So an agent has to balance pushing for what it wants against the risk of getting nothing.\n\n---\n\n## 4. The three game versions (\"instances\")\n\nWe run three fixed versions. Numbers read as `(book, hat, ball)`.\n\n| Version | Agent A values | Agent B values | What's going on | Best possible *joint* score |\n|---------|----------------|----------------|-----------------|------------------------------|\n| **1 — Integrative** | (4, 1, 0) | (0, 1, 4) | A wants books, B wants balls — they want different things | **18** |\n| **2 — Mixed** | (3, 2, 0) | (0, 2, 3) | A trade exists, but both somewhat want hats | **16** |\n| **3 — Competitive (control)** | (4, 1, 0) | (4, 1, 0) | They want the **exact same** things | **10** |\n\n**Why version 3 matters (the safety check):** here both agents want identical things, so no clever win-win is possible — the best they can *ever* do together is 10. This is a test of our own measuring tools. If our scoring ever reports \"great cooperation\" in this version, we know the scoring is broken. It stops us fooling ourselves.\n\n---\n\n## 5. How a turn works (the protocol)\n\nAgents take turns. On each turn, an",
+      "updated": "2026-06-10T23:55:16Z"
     },
     {
-      "name": "Go-Safe",
-      "description": "Human Safety App",
+      "name": "eea-ca1-email-classifier",
+      "description": "",
       "topics": [],
       "stars": 0,
-      "url": "https://github.com/AvanishSiva/Go-Safe",
-      "readme": "# Go-Safe 🛡️\n\n## What it does\nGo-Safe is a personal safety and emergency response application designed to keep users secure. It allows users to instantly alert nearby people and trusted emergency contacts when they are in trouble. By utilizing real-time location tracking and a simple \"Help/Safe\" toggle, the app ensures that distress signals are quickly broadcasted to surrounding users within a 2km radius, fostering a community-driven safety network.\n\n## Features\n- **Real-Time Distress Beacon:** Broadcast your live location and \"help needed\" status to nearby users instantly.\n- **2km Proximity Alerts:** Notifications are smartly routed only to people within a 2000-meter radius to avoid notification spam.\n- **Emergency Contacts Management:** Easily add and manage trusted contacts who you can reach out to in critical moments.\n- **In-App Messaging:** Secure chat functionality with nearby users responding to your distress signal.\n- **\"Mark as Safe\" Toggle:** Instantly disable the distress beacon and notify responders that you are no longer in danger.\n\n## How I built it\n**Stack:** Flutter, Firebase (Authentication, Firestore, Cloud Messaging), Google Maps API\nI chose Flutter to easily build a cross-platform mobile application for both iOS and Android from a single codebase, which is crucial for accessibility in emergencies. Firebase handles all backend operations: user authentication, real-time Firestore database for storing user location and distress states, and Cloud Messaging for instant push notifications. A key technical decision was to design a geo-querying logic that selectively fetches and alerts only users within a 2000-meter radius.\n\n## What was hard\nOne of the main challenges was managing real-time location processing and distance calculation without rapidly depleting the user's battery or hitting Firebase read quota limits. Accurately determining the distance between users and synchronizing state changes (such as toggling between Help and Safe mode and clearing emergency chat states) required careful state management. Additionally, handling background location fetching and ensuring reliable distress status propagation was technically demanding.\n\n## Results / Impact\n- Built a fully functional MVP with real-time distress broadcasting capability.\n- Optimized the nearby-user query to only sync within a 2km radius, significantly reducing unnecessary database reads and computation overhead.\n- Achieved sub-second latency for updating \"Help/Safe\" status across active nearby clients.\n\n## Prerequisites\nBefore you begin, ensure you have met the following requirements:\n*   [Flutter SDK](https://docs.flutter.dev/get-started/install) (version >=2.12.0 <3.0.0)\n*   [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/) with Flutter plugins.\n*   A Firebase project set up for this application.\n*   A Google Maps API Key.\n\n## Installation and Setup\n1. **Clone the repository:**\n   ```sh\n   git clone https://github.co",
-      "updated": "2026-03-10T00:02:54Z"
+      "url": "https://github.com/AvanishSiva/eea-ca1-email-classifier",
+      "readme": "",
+      "updated": "2026-03-25T22:47:58Z"
     },
     {
       "name": "DeepVisionTech-Octave",
@@ -73,24 +82,6 @@
       "updated": "2026-02-19T19:16:02Z"
     },
     {
-      "name": "my-porfolio",
-      "description": "This is my portfolio",
-      "topics": [],
-      "stars": 0,
-      "url": "https://github.com/AvanishSiva/my-porfolio",
-      "readme": "# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in your browser.\n\nThe page will reload when you make changes.\\\nYou may also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can't go back!**\n\nIf you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.\n\nYou don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)\n\n### Deployment\n\nThis section has moved here: [https://facebook.github",
-      "updated": "2026-01-01T07:20:58Z"
-    },
-    {
-      "name": "top-of-my-head",
-      "description": "",
-      "topics": [],
-      "stars": 0,
-      "url": "https://github.com/AvanishSiva/top-of-my-head",
-      "readme": "",
-      "updated": "2025-07-13T14:35:29Z"
-    },
-    {
       "name": "Brighten-Up",
       "description": "Speaking Motivational App",
       "topics": [],
@@ -98,33 +89,6 @@
       "url": "https://github.com/AvanishSiva/Brighten-Up",
       "readme": "# Brighten_Up\nSpeaking Motivational App\n\nhttps://user-images.githubusercontent.com/74535459/121701160-409d2600-caee-11eb-9934-9b5c505180d6.mp4\n\n\n\n\n\n## Getting Started\n\nThis project is a starting point for a Flutter application.\n\nA few resources to get you started if this is your first Flutter project:\n\n- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)\n- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)\n\nFor help getting started with Flutter, view our\n[online documentation](https://flutter.dev/docs), which offers tutorials,\nsamples, guidance on mobile development, and a full API reference.\n",
       "updated": "2025-01-24T21:46:24Z"
-    },
-    {
-      "name": "React-Documentation",
-      "description": "",
-      "topics": [],
-      "stars": 0,
-      "url": "https://github.com/AvanishSiva/React-Documentation",
-      "readme": "",
-      "updated": "2022-08-17T17:24:27Z"
-    },
-    {
-      "name": "SajuLoom",
-      "description": "",
-      "topics": [],
-      "stars": 0,
-      "url": "https://github.com/AvanishSiva/SajuLoom",
-      "readme": "### Hi there 👋, I am Sivaavanish K\n#### Intern @ZOHO, Chennai\n#### Studying @SKCET,Coimbatore\n![Studying @SKCET,Coimbatore](https://elements-cover-images-0.imgix.net/6e855666-1764-4019-be9e-998505bd3fdf?auto=compress&crop=edges&fit=crop&fm=jpeg&h=630&w=1200&s=fffbff5628fab9da0e2697d748790e92)\n\nLanguages and Tools:\n\n<p align=\"left\"> <a href=\"https://www.cprogramming.com/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg\" alt=\"c\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3schools.com/cpp/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg\" alt=\"cplusplus\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3schools.com/css/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg\" alt=\"css3\" width=\"40\" height=\"40\"/> </a> <a href=\"https://dart.dev\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg\" alt=\"dart\" width=\"40\" height=\"40\"/> </a> <a href=\"https://firebase.google.com/\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg\" alt=\"firebase\" width=\"40\" height=\"40\"/> </a> <a href=\"https://flutter.dev\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg\" alt=\"flutter\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.w3.org/html/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg\" alt=\"html5\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.java.com\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg\" alt=\"java\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.mysql.com/\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg\" alt=\"mysql\" width=\"40\" height=\"40\"/> </a> <a href=\"https://opencv.org/\" target=\"_blank\"> <img src=\"https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg\" alt=\"opencv\" width=\"40\" height=\"40\"/> </a> <a href=\"https://www.python.org\" target=\"_blank\"> <img src=\"https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg\" alt=\"python\" width=\"40\" height=\"40\"/> </a> </p>\n\n\n- 🔭 I’m currently working on DeepVisionTech Hackathon \n- 🌱 I’m currently learning React.js \n\n\n[<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg' alt='github' height='40'>](https://github.com/SajuLoom)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/dev-dot-to.svg' alt='dev' height='40'>](https://dev.to/sajuloom)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/linkedin.svg' alt='linkedin' height='40'>](https://www.linkedin.com/in/sivaavanish-k-5b6899203/)  [<img src='https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/instagram.svg' alt='insta",
-      "updated": "2022-07-04T19:52:13Z"
-    },
-    {
-      "name": "zero2-bot",
-      "description": "Discord Bot using Discord.py",
-      "topics": [],
-      "stars": 3,
-      "url": "https://github.com/AvanishSiva/zero2-bot",
-      "readme": "<center><img src=\"https://images.hdqwalls.com/wallpapers/darling-in-the-franx-p6.jpg\" alt = \"Zero2 Discord Bot\"></img></center>\n\n<h1 align=\"center\"> Zero2 Bot</h1>\n<p align =\"center\">Discord Bot using Discord.py</p>\n\n<h1 align=\"center\">Overview</h1>\n<br>\nZero2 Discord bot is written with Discord.py using Python. This Bot's role is to perform fun, search engines, miscellaneous, fun, and games command. This Discord bot is developed mostly for educational purposes and personal uses. \n\n## Commands\n### Music\n`*join`: to join voice channel\n<br>\n<br>\n`*leave`: to leave voice channel\n<br>\n<br>\n`*play <song_name>` : to play song on the channel (requirements : Name of the Song)\n<br>\n<br>\n`*queue` : to view all the Songs in Queue\n<br>\n<br>\n`*search <song_name>` : to get top five results from youtube for given song (requirements: Name of the Song)\n<br>\n<br>\n`*skip` : to skip currently playing song\n<br>\n<br>\n\n### Search Engine\n`*wiki <search>` : to get top wikipedia articles of the given topic (requirement: Topic)\n<br>\n<br>\n`*gsearch <search>` : to get top google searchs of the given topic (requirement: Topic)\n<br>\n<br>\n`*gmeaning <word>` : to get noun and verb meanings of the word (requirements : Word)\n<br>\n<br>\n`*gimage <topic>` : to get relative images for the searhed entry\n### Miscellaneous\n`*spam <User> <amount>` : to spam someone's for n times (requirements: Mention)\n<br>\n<br>\n`*avatar <User>` : to view someone's Profile Picture (requirements: Mention)\n<br>\n<br>\n\n### Fun\n`*8ball <Question>` : to get random yes/no reply for the question (requirements: Question)\n\n### Misc\n`*pool<choices>` : pool choices for users to react with their answer(requirements: Choices)\n\n<br>\n<br>\n<h1 align =\"center\">⛑Under Construction🦺🧱</h1>\n",
-      "updated": "2021-10-14T21:27:42Z"
     },
     {
       "name": "Portfolio",
@@ -136,15 +100,6 @@
       "updated": "2021-10-02T22:35:37Z"
     },
     {
-      "name": "random_generator",
-      "description": "",
-      "topics": [],
-      "stars": 2,
-      "url": "https://github.com/AvanishSiva/random_generator",
-      "readme": "# Random Generator\n\nThe main idea of this repo is a practice to React.js,Generating Random Names,Address,Phone Number,E-Mails and so on for the uses of development purposes.\nStill Developing DONT Stalk😛\n\n\n# Getting Started with Create React App\n\nThis project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\n\n## Available Scripts\n\nIn the project directory, you can run:\n\n### `npm start`\n\nRuns the app in the development mode.\\\nOpen [http://localhost:3000](http://localhost:3000) to view it in the browser.\n\nThe page will reload if you make edits.\\\nYou will also see any lint errors in the console.\n\n### `npm test`\n\nLaunches the test runner in the interactive watch mode.\\\nSee the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.\n\n### `npm run build`\n\nBuilds the app for production to the `build` folder.\\\nIt correctly bundles React in production mode and optimizes the build for the best performance.\n\nThe build is minified and the filenames include the hashes.\\\nYour app is ready to be deployed!\n\nSee the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.\n\n### `npm run eject`\n\n**Note: this is a one-way operation. Once you `eject`, you can’t go back!**\n\nIf you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.\n\nInstead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.\n\nYou don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.\n\n## Learn More\n\nYou can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).\n\nTo learn React, check out the [React documentation](https://reactjs.org/).\n\n### Code Splitting\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)\n\n### Analyzing the Bundle Size\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)\n\n### Making a Progressive Web App\n\nThis section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)\n\n### Advanced Configuration\n\nThis section has moved here: [https://facebo",
-      "updated": "2021-09-29T10:03:31Z"
-    },
-    {
       "name": "Custom-Flutter-UI",
       "description": "navigation bar",
       "topics": [],
@@ -154,15 +109,6 @@
       "updated": "2021-09-18T13:12:22Z"
     },
     {
-      "name": "attendence_system",
-      "description": "",
-      "topics": [],
-      "stars": 0,
-      "url": "https://github.com/AvanishSiva/attendence_system",
-      "readme": "# attendence_system\nadd photos to Indentity folder to add canditates for attendence system\n",
-      "updated": "2021-08-08T06:11:36Z"
-    },
-    {
       "name": "GlanceAt",
       "description": "A Wallpaper App",
       "topics": [],
@@ -170,15 +116,6 @@
       "url": "https://github.com/AvanishSiva/GlanceAt",
       "readme": "\n# GlanceAt\n\nA Flutter Wallpaper App\n\n## API Used\n\nhttps://www.pexels.com/api/\n## Home\n![Screenshot_1622745239 (1)](https://user-images.githubusercontent.com/74535459/120695839-76785400-c4c9-11eb-9e42-707620875d68.png)\n\n\n## Search Option\n![Screenshot_1622745257](https://user-images.githubusercontent.com/74535459/120695951-94de4f80-c4c9-11eb-8f3f-d6b2b10b775f.png)\n\n\n## Preview Screen \nwith Download button\n\n![Screenshot_1622745269](https://user-images.githubusercontent.com/74535459/120695997-a6275c00-c4c9-11eb-8a1a-b5db7645c7a7.png)\n\n\n",
       "updated": "2021-06-03T18:44:06Z"
-    },
-    {
-      "name": "github-slideshow",
-      "description": "A robot powered training repository :robot:",
-      "topics": [],
-      "stars": 1,
-      "url": "https://github.com/AvanishSiva/github-slideshow",
-      "readme": "# Your GitHub Learning Lab Repository for Introducing GitHub\n\nWelcome to **your** repository for your GitHub Learning Lab course. This repository will be used during the different activities that I will be guiding you through. See a word you don't understand? We've included an emoji 📖 next to some key terms. Click on it to see its definition.\n\nOh! I haven't introduced myself...\n\nI'm the GitHub Learning Lab bot and I'm here to help guide you in your journey to learn and master the various topics covered in this course. I will be using Issue and Pull Request comments to communicate with you. In fact, I already added an issue for you to check out.\n\n![issue tab](https://lab.github.com/public/images/issue_tab.png)\n\nI'll meet you over there, can't wait to get started!\n\nThis course is using the :sparkles: open source project [reveal.js](https://github.com/hakimel/reveal.js/). In some cases we’ve made changes to the history so it would behave during class, so head to the original project repo to learn more about the cool people behind this project.\n",
-      "updated": "2020-11-16T09:29:53Z"
     }
   ],
   "portfolio": {

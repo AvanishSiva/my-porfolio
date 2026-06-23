@@ -435,6 +435,37 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    if (req.method === 'GET' && req.url === '/api/analytics') {
+        if (req.headers['x-admin-secret'] !== process.env.ADMIN_SECRET) {
+            res.writeHead(401, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Unauthorized' }));
+            return;
+        }
+        try {
+            const { kv } = await import('@vercel/kv');
+            const raw = await kv.lrange('query_log', 0, 49);
+            const entries = raw.map(item => {
+                const { query, toolsUsed, inputTokens, cacheHit } = typeof item === 'string' ? JSON.parse(item) : item;
+                return { query, toolsUsed, inputTokens, cacheHit };
+            });
+            const counts = {};
+            for (const e of entries) {
+                for (const tool of e.toolsUsed ?? []) {
+                    counts[tool] = (counts[tool] ?? 0) + 1;
+                }
+            }
+            const topTools = Object.entries(counts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([tool, count]) => ({ tool, count }));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ total: entries.length, cacheHits: entries.filter(e => e.cacheHit).length, topTools, queries: entries }, null, 2));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+
     if (req.method !== 'POST' || req.url !== '/api/chat') {
         res.writeHead(404);
         res.end(JSON.stringify({ error: 'Not found' }));

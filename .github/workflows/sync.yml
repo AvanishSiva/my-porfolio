@@ -1,0 +1,45 @@
+name: Sync Knowledge Base
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'   # daily at 2am UTC
+  workflow_dispatch:       # allow manual trigger from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # needed to commit knowledge.json back
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Sync repos → knowledge.json
+        run: node scripts/sync.js
+        env:
+          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: AvanishSiva
+
+      - name: Re-embed projects → Supabase
+        run: node scripts/embed.js
+        env:
+          VOYAGE_API_KEY:    ${{ secrets.VOYAGE_API_KEY }}
+          SUPABASE_URL:      ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+      - name: Commit updated knowledge.json
+        run: |
+          git config user.name  "sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/knowledge.json
+          git diff --staged --quiet || git commit -m "sync: update knowledge base [skip ci]"
+          git push
