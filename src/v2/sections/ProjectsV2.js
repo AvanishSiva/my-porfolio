@@ -209,7 +209,7 @@ export default function ProjectsV2() {
                     </h2>
                 </motion.div>
 
-                <div style={{
+                <div className="v2-grid-cards" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                     gap: '1.5rem',

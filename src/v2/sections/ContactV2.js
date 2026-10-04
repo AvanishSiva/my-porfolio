@@ -43,7 +43,7 @@ export default function ContactV2() {
                     </p>
                 </motion.div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                <div className="v2-grid-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
                     {/* Contact info cards */}
                     {[
                         { icon: <Mail size={20} />, label: 'Email', value: EMAIL, action: handleCopy, actionLabel: copied ? <><Check size={13} /> Copied!</> : <><Copy size={13} /> Copy</> },

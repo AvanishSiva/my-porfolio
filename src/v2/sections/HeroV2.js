@@ -96,6 +96,9 @@ export default function HeroV2() {
         fetchReply(query, history);
     };
 
+    const dispatchMascot = (status, tool = null) =>
+        window.dispatchEvent(new CustomEvent('mascot-agent', { detail: { status, tool } }));
+
     const fetchReply = async (query, history) => {
         setLoading(true);
         setTraceEvents([]);
@@ -103,6 +106,9 @@ export default function HeroV2() {
         setStreamText('');
         setReply('');
         setFollowups([]);
+        dispatchMascot('think');
+        let gotDone = false;
+        let startedWriting = false;
         try {
             const res = await fetch(API_URL, {
                 method: 'POST',
@@ -133,10 +139,15 @@ export default function HeroV2() {
                         if (eventType === 'thinking') {
                             setThinking(payload.text);
                         } else if (eventType === 'stream') {
+                            if (!startedWriting) { startedWriting = true; dispatchMascot('writing'); }
                             setStreamText(prev => prev + payload.text);
                         } else if (eventType === 'trace') {
                             setTraceEvents(prev => [...prev, payload]);
+                            if (payload.type === 'tool_call') dispatchMascot('program', payload.tool);
+                            else if (payload.type === 'tool_result' || payload.type === 'tool_error') dispatchMascot('think');
                         } else if (eventType === 'done') {
+                            gotDone = true;
+                            dispatchMascot('greeting');
                             setReply(payload.reply ?? '');
                             setFollowups(payload.followups ?? []);
                             setMessages(prev => [...prev, {
@@ -160,6 +171,7 @@ export default function HeroV2() {
             setCurrentPair(prev => ({ ...prev, botComponent: 'TextResponse', botProps: { text: 'Something went wrong. Try again in a moment.' } }));
         } finally {
             setLoading(false);
+            setTimeout(() => dispatchMascot('idle'), gotDone ? 2000 : 100);
         }
     };
 
@@ -237,6 +249,7 @@ export default function HeroV2() {
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={titleIdx}
+                                        className="v2-hero-rotator"
                                         initial={{ y: 60, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -60, opacity: 0 }}
@@ -367,7 +380,7 @@ export default function HeroV2() {
                                                 transition={bubbleSpring}
                                                 style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
                                             >
-                                                <ExecutionTimeline traceEvents={traceEvents} isRunning={!streamText} />
+                                                <ExecutionTimeline traceEvents={traceEvents} isRunning={!streamText} thinking={thinking} />
 
                                                 <AnimatePresence>
                                                     {streamText && (
@@ -479,12 +492,15 @@ export default function HeroV2() {
                             value={input}
                             onChange={e => setInput(e.target.value)}
                             onKeyDown={handleKey}
-                            onFocus={() => setChatActive(true)}
+                            onFocus={() => { setChatActive(true); if (!loading) dispatchMascot('listen'); }}
+                            onBlur={() => { if (!loading) dispatchMascot('idle'); }}
                             placeholder={hasMessages ? 'Ask a follow-up…' : 'Ask about Siva…'}
                             disabled={loading}
                             style={{
                                 flex: 1, fontFamily: "'Inter', sans-serif",
-                                fontSize: '0.95rem', color: '#0f172a',
+                                // 16px, not 15.2px — iOS Safari auto-zooms the page on focus
+                                // for any input under 16px; the visual difference is negligible.
+                                fontSize: '1rem', color: '#0f172a',
                                 background: 'transparent', border: 'none', outline: 'none',
                                 padding: '0.25rem 0', caretColor: '#f97316',
                             }}

@@ -52,6 +52,7 @@ function ExperienceCard({ exp, index }) {
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.65, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="v2-exp-item"
             style={{ position: 'relative', paddingLeft: '2rem' }}
         >
             {/* Timeline dot */}
@@ -65,6 +66,7 @@ function ExperienceCard({ exp, index }) {
             }} />
 
             <div
+                className="v2-exp-card"
                 style={{
                     background: 'white',
                     border: '1px solid #e2e8f0',

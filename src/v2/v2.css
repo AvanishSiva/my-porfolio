@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+/* Font <link> lives in public/index.html (preconnect + non-blocking) instead of
+   this @import, which blocks CSS parsing until the Google Fonts request resolves. */
 
 /* ── Design Tokens ───────────────────────────────────────────────── */
 :root {
@@ -95,4 +96,87 @@ body {
 /* ── Scramble dud colour (from hero) ────────────────────────────── */
 .scramble-dud {
     color: #f97316;
+}
+
+/* ── Responsive layer ─────────────────────────────────────────────
+   Desktop layout is untouched; these only kick in below breakpoints.
+   !important is required where components use inline styles.        */
+
+/* Mobile nav toggle hidden on desktop */
+.v2-nav-toggle {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .v2-container {
+        padding: 0 1.25rem;
+    }
+
+    .v2-section {
+        padding: 4rem 0;
+    }
+
+    /* Navbar: swap link row for hamburger */
+    .v2-nav-links {
+        display: none !important;
+    }
+
+    .v2-nav-toggle {
+        display: inline-flex !important;
+    }
+
+    /* Cards: tighter padding on small screens */
+    .v2-exp-card {
+        padding: 1.25rem 1.15rem !important;
+    }
+
+    .v2-edu-card {
+        padding: 1.25rem 1.15rem !important;
+        gap: 1rem !important;
+    }
+
+    /* Experience timeline: pull cards closer to the line */
+    .v2-exp-item {
+        padding-left: 1.4rem !important;
+    }
+
+    /* Dev-only mascot panel gets in the way on phones */
+    .mascot-dev-panel {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .v2-nav-mobile,
+    .v2-nav-overlay {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .v2-container {
+        padding: 0 1rem;
+    }
+
+    /* Card grids: single column so minmax(280px) can't overflow */
+    .v2-grid-cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Navbar CTA: slightly smaller so logo + CTA + burger fit */
+    .v2-nav-cta {
+        padding: 0.45rem 0.85rem !important;
+        font-size: 0.78rem !important;
+    }
+
+    /* Hero rotating title: keep long titles inside narrow screens */
+    .v2-hero-rotator {
+        font-size: clamp(1.7rem, 9vw, 2.2rem) !important;
+    }
+
+    /* Mascot: scale down so it doesn't cover content on phones */
+    .mascot-root {
+        transform: scale(0.72);
+        transform-origin: bottom left;
+    }
 }

@@ -423,9 +423,10 @@ const server = http.createServer(async (req, res) => {
                 const { runAgentLoop } = await import('./lib/agentLoop.js');
                 await runAgentLoop(query, history, send);
             } catch (err) {
+                console.error('Agent loop error:', err);
                 send('done', {
-                    reply: 'Something went wrong.',
-                    component: { component: 'TextResponse', props: { text: err.message } },
+                    reply: '',
+                    component: { component: 'TextResponse', props: { text: 'Something went wrong on my end — please try again in a moment.' } },
                     followups: [],
                 });
             } finally {

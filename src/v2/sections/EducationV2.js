@@ -51,6 +51,7 @@ function EducationCard({ edu, index }) {
             transition={{ duration: 0.6, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
         >
             <motion.div
+                className="v2-edu-card"
                 whileHover={{ x: 6, borderColor: '#fed7aa' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 style={{

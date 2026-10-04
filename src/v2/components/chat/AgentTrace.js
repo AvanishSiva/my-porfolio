@@ -64,7 +64,7 @@ function StepIcon({ status }) {
     );
 }
 
-export function ExecutionTimeline({ traceEvents = [], isRunning }) {
+export function ExecutionTimeline({ traceEvents = [], isRunning, thinking = '' }) {
     const steps = buildSteps(traceEvents);
     const allDone = steps.length > 0 && steps.every(s => s.status !== 'running');
     const showSynthesizing = isRunning && allDone;
@@ -81,7 +81,7 @@ export function ExecutionTimeline({ traceEvents = [], isRunning }) {
         >
             <div style={{
                 display: 'flex', alignItems: 'center', gap: '0.5rem',
-                marginBottom: steps.length ? '0.75rem' : 0,
+                marginBottom: (steps.length || thinking) ? '0.75rem' : 0,
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '0.61rem', fontWeight: 700, letterSpacing: '0.1em',
                 textTransform: 'uppercase', color: '#94a3b8',
@@ -90,7 +90,26 @@ export function ExecutionTimeline({ traceEvents = [], isRunning }) {
                 <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />
             </div>
 
-            {steps.length === 0 && isRunning && (
+            <AnimatePresence>
+                {thinking && (
+                    <motion.p
+                        key="thinking-text"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        style={{
+                            fontFamily: "'Inter', sans-serif", fontSize: '0.79rem',
+                            fontStyle: 'italic', color: '#64748b', lineHeight: 1.5,
+                            marginBottom: '0.7rem',
+                        }}
+                    >
+                        {thinking}
+                    </motion.p>
+                )}
+            </AnimatePresence>
+
+            {steps.length === 0 && isRunning && !thinking && (
                 <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 0.75, ease: 'linear' }}
